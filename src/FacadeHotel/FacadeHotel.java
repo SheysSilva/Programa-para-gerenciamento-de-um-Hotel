@@ -1,10 +1,9 @@
 package FacadeHotel;
 
+import hospede.Hospede;
+
 import java.text.ParseException;
 
-import controller.HotelController;
-import hospede.Hospede;
-import sistemaexception.AtualizaCadastroException;
 import sistemaexception.AtualizaDataNascimentoHospedeFormatException;
 import sistemaexception.AtualizaDataNascimentoNullException;
 import sistemaexception.AtualizaEmailHospedeException;
@@ -17,6 +16,8 @@ import sistemaexception.MenorDeIdadeException;
 import sistemaexception.NomeHospedeException;
 import sistemaexception.NomeHospedeInvalidoException;
 import sistemaexception.ValorInvalidoException;
+import controller.AtualizaCadastroException;
+import controller.HotelController;
 
 public class FacadeHotel {
 	
