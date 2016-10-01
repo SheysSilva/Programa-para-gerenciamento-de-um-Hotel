@@ -14,97 +14,67 @@ import sistemaexception.RefeicaoInexistenteException;
 import sistemaexception.RefeicaoJaCadastradaException;
 
 public class Restaurante {
-	private List<Prato> pratosCadastrados;
-	private List<Refeicao> refeicoes;
-	private FactoryDePrato factoryDePrato;
-	private FactoryDeRefeicao factoryDeRefeicao;
+	private List<ItensDoCardapio> cardapio;
 	
 	public Restaurante(){
-		this.pratosCadastrados = new ArrayList<Prato>();
-		this.refeicoes = new ArrayList<Refeicao>();
-		this.factoryDePrato = new FactoryDePrato();
-		this.factoryDeRefeicao = new FactoryDeRefeicao();
+		this.cardapio = new ArrayList<ItensDoCardapio>();
 	}
 	
-	public void cadastraPrato(String nome, double preco, String especificacao) throws Exception{
-		Prato prato = factoryDePrato.CriaPrato(nome, preco, especificacao);
-		if (pratosCadastrados.contains(prato)){
+	// CADASTRO DE PRATO
+	
+	public void cadastraPrato(String nome, double preco, String descricao) throws Exception{
+		ItensDoCardapio prato = new Prato(nome, preco, descricao);
+		if (cardapio.contains(prato)){
 			throw new Exception("prato ja cadastrado.");
 		}
-		pratosCadastrados.add(prato);
+		cardapio.add(prato);
 	}
 	
-	private Prato encontraPrato(String nome) throws Exception{
-		for (Prato prato : pratosCadastrados) {
-			if (prato.getNome().equalsIgnoreCase(nome)){
-				return prato;
-			}
-		}throw new PratoInexistenteException("prato inexistente.");
+	
+	// CADASTRO DE REFEICAO
+	
+	public void cadastraRefeicao(String nome, String descricao, String componentes) throws Exception{
+		verificaComponentes(componentes);
+		ItensDoCardapio refeicao = new Refeicao(nome, descricao, separaComponentes(componentes));
+		
+		if (cardapio.contains(refeicao)){
+			throw new RefeicaoJaCadastradaException("refeicao ja cadastrada.");
+		}
+		cardapio.add(refeicao);
 	}
 	
-	private boolean existePrato(String nome){
-		for (Prato prato : pratosCadastrados) {
-			if (prato.getNome().equalsIgnoreCase(nome)){
-				return true;
-			}
-		}return false;
-	}
+	// CONSULTA DE ATRIBUTO PARA PRATO OU REFEICAO
 	
-	public String consultaRestaurante(String nome, String atributo) throws Exception{
+	public String consultaRestaurante(String nome, String atributo) throws Exception {
 		verificaNomeConsulta(nome);
 		
-		if (existePrato(nome)){
-			Prato prato = encontraPrato(nome);
+		if (existeItem(nome)){
+			ItensDoCardapio item = encontraItem(nome);
 			
 			switch (atributo.toUpperCase()) {
 			case "PRECO":
-				return prato.getPrecoString();
+				if (item.getPrecoString() != null){
+					return item.getPrecoString();
+				}else{
+					return getPrecoRefeicaoString(nome);
+				}
 			case "DESCRICAO":
-				return prato.getEspecificacao();
+				return item.getDescricao();
 			default:
 				throw new AtributoInexistenteException("Atributo inexistente.");
 			}
 		}
-		else if (existeRefeicao(nome)){
-			Refeicao refeicao = encontraRefeicao(nome);
-			
-			switch (atributo.toUpperCase()) {
-			case "PRECO":
-				return getPrecoRefeicaoString(nome);
-			case "DESCRICAO":
-				return refeicao.toString();
-			default:
-			throw new AtributoInexistenteException("Atributo inexistente.");
-			}
-		}
 		throw new Exception("Prato ou refeicao nao existe.");
-		
-		
-		
 	}
 	
-	private void verificaComponentes(String componentes) throws Exception {
-		if (componentes == null || componentes.trim().isEmpty()){
-			throw new ComponenteRefeicaoVazioException("Erro no cadastro de refeicao. Componente(s) esta(o) vazio(s).");
-		}
-		
-		ArrayList<String> pratosRefeicao = separaComponentes(componentes);
-		
-		if (pratosRefeicao.size() < 3 || pratosRefeicao.size() > 4){
-			throw new NumeroDePratosRefeicaoException("Erro no cadastro de refeicao completa. Uma refeicao completa deve possuir no minimo 3 e no maximo 4 pratos.");
-		}
-		
-		int qtdPratosCadastrados = 0;
-		for (Prato prato : pratosCadastrados) {
-			if (pratosRefeicao.contains(prato.getNome())){
-				qtdPratosCadastrados += 1;
-			}
-		}
-		
-		if (qtdPratosCadastrados != pratosRefeicao.size()){
-			throw new PratoInexistenteRefeicaoException("Erro no cadastro de refeicao. So eh possivel cadastrar refeicoes com pratos ja cadastrados.");
+	
+	private void verificaNomeConsulta(String nome) throws Exception{
+		if (nome == null || nome.trim().isEmpty()){
+			throw new NomePratoVazioException("Erro na consulta do restaurante. Nome do prato esto vazio.");
 		}
 	}
+	
+	// SEPARA OS COMPONENTES DA REFEICAO QUE ESTAVAM EM STRING PRA PODER AVALIAR SE SAO VALIDOS
 	
 	private ArrayList<String> separaComponentes(String componentes) throws Exception {
 		String[] componentesSplit;
@@ -124,15 +94,53 @@ public class Restaurante {
 		return pratos;	
 	}
 	
-	public void cadastraRefeicao(String nome, String descricao, String componentes) throws Exception{
-		verificaComponentes(componentes);
-		Refeicao refeicao = factoryDeRefeicao.CriaRefeicao(nome, descricao, separaComponentes(componentes));
-		
-		if (refeicoes.contains(refeicao)){
-			throw new RefeicaoJaCadastradaException("refeicao ja cadastrada.");
+	// VERIFICA SE O COMPONENTES DA REFEICAO SAO PRATOS VALIDOS
+	
+	private void verificaComponentes(String componentes) throws Exception {
+		if (componentes == null || componentes.trim().isEmpty()){
+			throw new ComponenteRefeicaoVazioException("Erro no cadastro de refeicao. Componente(s) esta(o) vazio(s).");
 		}
-		refeicoes.add(refeicao);
+		
+		ArrayList<String> pratosRefeicao = separaComponentes(componentes);
+		
+		if (pratosRefeicao.size() < 3 || pratosRefeicao.size() > 4){
+			throw new NumeroDePratosRefeicaoException("Erro no cadastro de refeicao completa. Uma refeicao completa deve possuir no minimo 3 e no maximo 4 pratos.");
+		}
+		
+		int qtdPratosCadastrados = 0;
+		for (ItensDoCardapio prato : cardapio) {
+			if (pratosRefeicao.contains(prato.getNome())){
+				qtdPratosCadastrados += 1;
+			}
+		}
+		
+		if (qtdPratosCadastrados != pratosRefeicao.size()){
+			throw new PratoInexistenteRefeicaoException("Erro no cadastro de refeicao. So eh possivel cadastrar refeicoes com pratos ja cadastrados.");
+		}
 	}
+	
+	// VERIFICA SE UM PRATO OU REFEICAO EXISTE NO CARDAPIO
+	
+	private boolean existeItem(String nome) {
+		for (ItensDoCardapio item : cardapio) {
+			if (item.getNome().equalsIgnoreCase(nome)){
+				return true;
+			}
+		}
+		return false;			
+	}
+	
+	// ENCONTRA UM ITEM NO CARDAPIO
+	
+	private ItensDoCardapio encontraItem(String nome) throws Exception{
+		for (ItensDoCardapio item : cardapio) {
+			if (item.getNome().equalsIgnoreCase(nome)){
+				return item;
+			}
+		}throw new Exception("item inexistente.");
+	}
+	
+	// CALCULA O PRECO DE UMA REFEICAO COMPLETA COM DESCONTO
 	
 	private double getPrecoRefeicao(String nome) throws Exception{
 		if (nome == null || nome.trim().isEmpty()){
@@ -140,8 +148,8 @@ public class Restaurante {
 		}
 		
 		double valorTotal = 0;
-		if(existeRefeicao(nome)){
-			for (Prato prato : pratosCadastrados) {
+		if(existeItem(nome)){
+			for (ItensDoCardapio prato : cardapio) {
 				if(pegaComponentes(nome).contains(prato.getNome())){
 					valorTotal += prato.getPreco();
 				}
@@ -151,74 +159,19 @@ public class Restaurante {
 		
 	}
 	
-	private String getPrecoRefeicaoString(String nome) throws Exception{
-		return String.format("R$%.2f", getPrecoRefeicao(nome));
-	} 
-
-	private boolean existeRefeicao(String nome) {
-		for (Refeicao refeicao : refeicoes) {
-			if (refeicao.getNome().equalsIgnoreCase(nome)){
-				return true;
-			}
-		}
-		return false;			
-	}
+	// METODO USADO PARA PEGAR INFORMACOES DE UM DETERMINADO COMPONENTE DA REFEICAO
 	
 	private ArrayList<String> pegaComponentes(String nome){
-		for (Refeicao refeicao : refeicoes) {
+		for (ItensDoCardapio refeicao : cardapio) {
 			if (refeicao.getNome().equalsIgnoreCase(nome)){
 				return refeicao.getComponentes();
 			}
 		}return null;
 	}
 	
-	private Refeicao encontraRefeicao(String nome) throws Exception{
-		for (Refeicao refeicao : refeicoes) {
-			if (refeicao.getNome().equalsIgnoreCase(nome)){
-				return refeicao;
-			}
-		}throw new Exception("refeicao inexistente.");
-	}
+	// METODO USADO PARA TRANSFORMAR O PRECO DE UMA REFEICAO EM STRING E UTILIZADO NO ConsultaRestaurante()
 	
-	private void verificaNomeConsulta(String nome) throws Exception{
-		if (nome == null || nome.trim().isEmpty()){
-			throw new NomePratoVazioException("Erro na consulta do restaurante. Nome do prato esto vazio.");
-		}
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((pratosCadastrados == null) ? 0 : pratosCadastrados.hashCode());
-		result = prime * result + ((refeicoes == null) ? 0 : refeicoes.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Restaurante other = (Restaurante) obj;
-		if (pratosCadastrados == null) {
-			if (other.pratosCadastrados != null)
-				return false;
-		} else if (!pratosCadastrados.equals(other.pratosCadastrados))
-			return false;
-		if (refeicoes == null) {
-			if (other.refeicoes != null)
-				return false;
-		} else if (!refeicoes.equals(other.refeicoes))
-			return false;
-		return true;
-	}
-
-	@Override
-	public String toString() {
-		return "Restaurante [pratosCadastrados=" + pratosCadastrados + ", refeicoes=" + refeicoes + "]";
+	private String getPrecoRefeicaoString(String nome) throws Exception{
+		return String.format("R$%.2f", getPrecoRefeicao(nome));
 	}
 }

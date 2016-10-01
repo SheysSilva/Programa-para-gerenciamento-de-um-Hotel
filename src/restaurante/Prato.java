@@ -1,20 +1,22 @@
 package restaurante;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import sistemaexception.CadastroDePratoVazioException;
 
-public class Prato {
-	private String nome;
+public class Prato extends ItensDoCardapio{
+	
 	private double preco;
-	private String especificacao;
 
-	public Prato(String nome, double preco, String especificacao) throws Exception{
+	public Prato(String nome, double preco, String descricao) throws Exception {
+		super(nome, descricao);
+		
 		verificaNome(nome);
 		verificaPreco(preco);
-		verificaEspecificacao(especificacao);
+		verificaDescricao(descricao);
 		
-		this.nome = nome;
 		this.preco = preco;
-		this.especificacao = especificacao;
 	}
 	
 	private void verificaNome(String nome) throws Exception{
@@ -29,18 +31,10 @@ public class Prato {
 		}
 	}
 	
-	private void verificaEspecificacao(String especificacao) throws Exception{
-		if (especificacao == null || especificacao.trim().isEmpty()){
+	private void verificaDescricao(String descricao) throws Exception{
+		if (descricao == null || descricao.trim().isEmpty()){
 			throw new CadastroDePratoVazioException("Erro no cadastro do prato. Descricao do prato esta vazia.");
 		}
-	}
-	
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
 	}
 
 	public double getPreco() {
@@ -50,24 +44,23 @@ public class Prato {
 	public void setPreco(double preco) {
 		this.preco = preco;
 	}
-
-	public String getEspecificacao() {
-		return especificacao;
-	}
-
-	public void setEspecificacao(String especificacao) {
-		this.especificacao = especificacao;
-	}
 	
 	public String getPrecoString(){
 		return String.format("R$%.2f", this.preco);
+	}
+	
+	@Override
+	public String getDescricao() {
+		return this.getDescricaoItem();
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
+		int result = super.hashCode();
+		long temp;
+		temp = Double.doubleToLongBits(preco);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
 		return result;
 	}
 
@@ -75,21 +68,26 @@ public class Prato {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
+		if (!super.equals(obj))
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
 		Prato other = (Prato) obj;
-		if (nome == null) {
-			if (other.nome != null)
-				return false;
-		} else if (!nome.equals(other.nome))
+		if (Double.doubleToLongBits(preco) != Double
+				.doubleToLongBits(other.preco))
 			return false;
 		return true;
 	}
-
+	
 	@Override
 	public String toString(){
-		return "(" + this.nome + ", " + this.preco + ", " + this.especificacao + ")"; 
-	}	
+		return "(" + this.getNome() + ", " + this.preco + ", " + this.getDescricao() + ")";  
+	}
+
+	// METODO UTILIZADO APENAS PARA BUSCAR COMPONENTES DE UMA REFEICAO
+	
+	@Override
+	public ArrayList<String> getComponentes() {
+		return null;
+	}
 }

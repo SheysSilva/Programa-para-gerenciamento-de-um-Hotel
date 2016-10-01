@@ -3,18 +3,19 @@ package restaurante;
 import java.util.ArrayList;
 
 import sistemaexception.CadastroDeRefeicaoVazioException;
+import sistemaexception.ComponenteRefeicaoVazioException;
+import sistemaexception.NumeroDePratosRefeicaoException;
+import sistemaexception.PratoInexistenteRefeicaoException;
 
-public class Refeicao {
-	private String nome;
-	private String descricao;
+public class Refeicao extends ItensDoCardapio{
+
 	private ArrayList<String> componentes;
 	
-	public Refeicao(String nome, String descricao, ArrayList<String> componentes) throws Exception{
+	public Refeicao(String nome, String descricao, ArrayList<String> componentes) throws Exception {
+		super(nome, descricao);
+		
 		verificaNome(nome);
 		verificaDescricao(descricao);
-		
-		this.nome = nome;
-		this.descricao = descricao;
 		this.componentes = componentes;
 	}
 	
@@ -30,28 +31,25 @@ public class Refeicao {
 		}
 	}
 
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
-	public String getDescricao() {
-		return descricao;
-	}
-
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
-	}
-
 	public ArrayList<String> getComponentes() {
 		return componentes;
 	}
 
 	public void setComponentes(ArrayList<String> componentes) {
 		this.componentes = componentes;
+	}
+	
+	public String getDescricao() {
+		return toString();
+	}
+	
+	public double getPreco() {
+		return 1;
+	}
+
+	@Override
+	public String getPrecoString() {
+		return null;
 	}
 	
 	private String toStringComponentes(){
@@ -68,8 +66,9 @@ public class Refeicao {
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
+		int result = super.hashCode();
+		result = prime * result
+				+ ((componentes == null) ? 0 : componentes.hashCode());
 		return result;
 	}
 
@@ -77,21 +76,21 @@ public class Refeicao {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
+		if (!super.equals(obj))
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
 		Refeicao other = (Refeicao) obj;
-		if (nome == null) {
-			if (other.nome != null)
+		if (componentes == null) {
+			if (other.componentes != null)
 				return false;
-		} else if (!nome.equals(other.nome))
+		} else if (!componentes.equals(other.componentes))
 			return false;
 		return true;
 	}
 	
 	@Override 
 	public String toString(){
-		return this.descricao + " Serao servidos: " + toStringComponentes() + ".";				
+		return this.getDescricaoItem() + " Serao servidos: " + toStringComponentes() + ".";				
 	}
 }
