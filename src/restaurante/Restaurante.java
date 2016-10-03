@@ -73,7 +73,7 @@ public class Restaurante{
 	}
 	
 	/*
-	 * Os dois proximos metodos sao testes para o caso de uso 5
+	 * Os tres proximos metodos sao testes para o caso de uso 5
 	 */
 	
 	public void ordenaMenu(String tipoOrdenacao) throws Exception{
@@ -93,6 +93,21 @@ public class Restaurante{
 		imprimeCardapio = imprimeCardapio.substring(1);
 		return imprimeCardapio;
 	}
+	
+	public String realizaPedido(String email, String itemMenu) throws Exception{
+		for (ItensDoCardapio item : cardapio) {
+			if (item.getNome().equalsIgnoreCase(itemMenu)){
+				if (item.getPrecoString() == null){
+					return getPrecoRefeicaoString(itemMenu);
+				}else{
+					return item.getPrecoString();
+				}
+			}
+		}
+		return null;
+	}
+	
+	// VERIFICA SE O NOME DADO NO PARAMETRO EH VALIDO
 	
 	private void verificaNomeConsulta(String nome) throws Exception{
 		if (nome == null || nome.trim().isEmpty()){

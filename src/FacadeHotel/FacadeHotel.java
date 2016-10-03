@@ -83,6 +83,10 @@ public class FacadeHotel {
 		return hotel.consultaMenuRestaurante();
 	}
 	
+	public String realizaPedido(String email, String itemMenu) throws Exception{
+		return hotel.realizaPedido(email, itemMenu);
+	}
+
 	public void fechaSistema(){
 	}
 }

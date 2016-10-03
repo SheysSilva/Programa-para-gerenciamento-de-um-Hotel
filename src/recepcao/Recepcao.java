@@ -144,6 +144,4 @@ public class Recepcao {
 	private Estadia criaEstadia(Quarto quarto, int quantDias) throws ValorInvalidoException, QuartoInexistenteException, ObjetoNullException{
 		return this.factoryEstadia.criaEstadia(quarto, quantDias);
 	}
-
-	
 }

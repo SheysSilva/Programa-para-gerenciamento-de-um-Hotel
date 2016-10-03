@@ -104,5 +104,8 @@ public class HotelController {
 	public String consultaMenuRestaurante(){
 		return restaurante.consultaMenuRestaurante();
 	}
-
+	
+	public String realizaPedido(String email, String itemMenu) throws Exception{
+		return restaurante.realizaPedido(email, itemMenu);
+	}
 }
