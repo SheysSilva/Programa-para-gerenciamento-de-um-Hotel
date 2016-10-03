@@ -20,10 +20,6 @@ public class HistoricoCheckout {
      * Número do quarto relacionado à estadia do hospede.
      */
     private String numeroDoQuarto;
-    
-    /**
-     * Registro de pratos e refeicoes realizadas pelo hospede no restaurante do hotel
-     */
 
     /**
      * Total pago pelo hospede ao realizar o checkout.

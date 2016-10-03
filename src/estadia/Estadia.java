@@ -36,13 +36,6 @@ public class Estadia {
 		return this.quarto.getValorQuarto();
 	}
 	
-	public boolean isEstadoDoQuarto(){
-		return this.quarto.isEstadoQuarto();
-	}
-
-	public void setEstadoDoQuarto(boolean estadoDoQuarto){
-		this.quarto.setEstadoQuarto(estadoDoQuarto);
-	}
 
 	public double getValorTotal() {
 		return this.getValorDiariaQuarto() * this.getDias();

@@ -1,10 +1,9 @@
 package hospede;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.HashSet;
-
+import java.time.format.DateTimeFormatter;
 import cartaofidelidade.CartaoFidelidade;
 import cartaofidelidade.FactoryCartaoFidelidade;
 import estadia.Estadia;
@@ -12,6 +11,7 @@ import exceptionsmetodos.ExceptionMetodosHospede;
 import sistemaexception.AtualizaDataNascimentoHospedeFormatException;
 import sistemaexception.AtualizaDataNascimentoNullException;
 import sistemaexception.AtualizaEmailHospedeException;
+import sistemaexception.AtualizaMenorDeIdadeException;
 import sistemaexception.AtualizaNomeHospedeException;
 import sistemaexception.DataNascimentoNullException;
 import sistemaexception.EmailHospedeException;
@@ -23,8 +23,8 @@ import sistemaexception.ValorInvalidoException;
 
 public class Hospede {
 	
-	private SimpleDateFormat format;
-	private Date dataNascimento;
+	private DateTimeFormatter format;
+	private LocalDate dataNascimento;
 	
 	private String nome;
 	private String email;
@@ -36,12 +36,10 @@ public class Hospede {
 	public Hospede(String nome, String email, String dataNascimento) throws NomeHospedeInvalidoException, NomeHospedeException, EmailHospedeException, FormatoDataException, DataNascimentoNullException, MenorDeIdadeException, ParseException {
 		this.exception = new ExceptionMetodosHospede();
 		this.exception.exceptionEntrada(nome, email, dataNascimento);
-		
-		this.format = new SimpleDateFormat("dd/MM/yyyy");
+		this.format = DateTimeFormatter.ofPattern("dd/MM/yyy");
 		this.nome = nome;
 		this.email = email;
-		this.dataNascimento = new Date();
-		this.dataNascimento = format.parse(dataNascimento);
+		this.dataNascimento = LocalDate.parse(dataNascimento, format);
 		this.factoryCartao = new FactoryCartaoFidelidade();
 		this.cartao = this.factoryCartao.criarCartaoFidelidade();
 		this.estadias =  new HashSet<Estadia>();
@@ -52,7 +50,7 @@ public class Hospede {
 	}
 
 	public void setNome(String nome) throws AtualizaNomeHospedeException {
-		this.exception.exceptionAtualizaNomeHospede(nome);
+		this.exception.exceptionAtualizaNomeHospedeInvalido(nome);
 		this.nome = nome;
 	}
 
@@ -61,24 +59,21 @@ public class Hospede {
 	}
 
 	public void setEmail(String email) throws AtualizaEmailHospedeException {
-		this.exception.exceptionAtualizaEmailHospede(email);
+		this.exception.exceptionAtualizaEmailFormat(email);
 		this.email = email;
 	}
 
 	public double getDebito() {
-		return this.cartao.getGastosHospedes();
+		return 0.0;
 	}
 
 
 	public String getAnoNascimento() {
-		return this.format.format(dataNascimento);
+		return this.dataNascimento.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 	}
 
-	public void setDataNascimento(String data) throws AtualizaDataNascimentoHospedeFormatException, DataNascimentoNullException, ParseException, AtualizaDataNascimentoNullException {
-		this.exception.exceptionAtualizaDataNascimentoHospedeFormat(data);
-		this.exception.exceptionAtualizaDataNascimentoHospede(data);
-		Date dataNascimento = new Date();
-		dataNascimento = format.parse(data);
+	public void setDataNascimento(String data) throws AtualizaDataNascimentoNullException, AtualizaDataNascimentoHospedeFormatException, AtualizaMenorDeIdadeException{
+		this.exception.exceptionAtualizaMenorDeIdade(data);
 		this.dataNascimento = dataNascimento;
 		
 	}
@@ -93,12 +88,12 @@ public class Hospede {
 
 	public void adicionaEstadia(Estadia estadia) throws ValorInvalidoException {
 		this.getEstadias().add(estadia);
-		this.cartao.controleGastos(estadia.getValorTotal());
+		
 	}
 
 
-	public void removeEstadia(Estadia estadia, double pagamento) throws ValorInvalidoException {
-		this.cartao.controleGastos(pagamento * (-1));
+	public void removeEstadia(Estadia estadia) throws ValorInvalidoException {
+		
 		this.getEstadias().remove(estadia);
 	}
 

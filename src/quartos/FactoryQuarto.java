@@ -1,11 +1,13 @@
 package quartos;
 
 
+import sistemaexception.ObjetoNullException;
 import sistemaexception.QuartoInexistenteException;
+import sistemaexception.ValorInvalidoException;
 
 public class FactoryQuarto {
 
-	public Quarto criaQuarto(String tipo, String numQuarto)throws Exception{
+	public Quarto criaQuarto(String tipo, String numQuarto)throws QuartoInexistenteException, ValorInvalidoException, ObjetoNullException{
 		switch(tipo.toUpperCase()){
 			case "SIMPLES":
 				return new Simples(numQuarto);
@@ -17,7 +19,7 @@ public class FactoryQuarto {
 				return new Presidencial(numQuarto);
 				
 			default:
-				throw new QuartoInexistenteException();
+				throw new QuartoInexistenteException("Erro ao realizar checkin. Tipo de quarto invalido.");
 		}
 	}
 

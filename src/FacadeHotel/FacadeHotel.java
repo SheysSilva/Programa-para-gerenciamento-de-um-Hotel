@@ -8,6 +8,7 @@ import sistemaexception.AtualizaCadastroException;
 import sistemaexception.AtualizaDataNascimentoHospedeFormatException;
 import sistemaexception.AtualizaDataNascimentoNullException;
 import sistemaexception.AtualizaEmailHospedeException;
+import sistemaexception.AtualizaMenorDeIdadeException;
 import sistemaexception.AtualizaNomeHospedeException;
 import sistemaexception.DataNascimentoNullException;
 import sistemaexception.EmailHospedeException;
@@ -16,6 +17,9 @@ import sistemaexception.HospedeInexistenteException;
 import sistemaexception.MenorDeIdadeException;
 import sistemaexception.NomeHospedeException;
 import sistemaexception.NomeHospedeInvalidoException;
+import sistemaexception.ObjetoNullException;
+import sistemaexception.QuartoInexistenteException;
+import sistemaexception.QuartoInvalidoException;
 import sistemaexception.ValorInvalidoException;
 
 public class FacadeHotel {
@@ -46,16 +50,24 @@ public class FacadeHotel {
 		
 	}
 	
-	public void realizaCheckin(String email, int quantDias, String numQuarto, String tipo) throws Exception{
+	public void realizaCheckin(String email, int quantDias, String numQuarto, String tipo) throws ValorInvalidoException, QuartoInexistenteException, HospedeInexistenteException, ObjetoNullException, QuartoInvalidoException, Exception {
 		this.hotel.realizaCheckin(email, quantDias, numQuarto, tipo);
 		
 	}
 
-	public String realizarCheckout(String email, double pagamento) throws ValorInvalidoException, HospedeInexistenteException {
-		return this.hotel.realizarCheckout(email, pagamento);	
+	public String realizaCheckout(String email, String numQuarto) throws ValorInvalidoException, HospedeInexistenteException, QuartoInvalidoException {
+		return this.hotel.realizarCheckout(email, numQuarto);	
 	}
 	
-	public String atualizaCadastro(String email, String atributo, String valor) throws AtualizaDataNascimentoHospedeFormatException, DataNascimentoNullException, AtualizaDataNascimentoNullException, AtualizaNomeHospedeException, AtualizaEmailHospedeException, ParseException, HospedeInexistenteException, AtualizaCadastroException {
+	public String consultaTransacoes(String tipo) throws Exception{
+		return this.hotel.consultaTransacoes(tipo);
+	}
+	
+	public String consultaTransacoes(String tipo, int indice) throws Exception{
+		return this.hotel.consultaTransacoes(tipo, indice);
+	}
+	
+	public String atualizaCadastro(String email, String atributo, String valor) throws AtualizaDataNascimentoHospedeFormatException, DataNascimentoNullException, AtualizaDataNascimentoNullException, AtualizaNomeHospedeException, AtualizaEmailHospedeException, ParseException, HospedeInexistenteException, AtualizaCadastroException, AtualizaMenorDeIdadeException {
 		return this.hotel.atualizaCadastro(email, atributo, valor);
 		
 	}
@@ -86,7 +98,7 @@ public class FacadeHotel {
 	public String realizaPedido(String email, String itemMenu) throws Exception{
 		return hotel.realizaPedido(email, itemMenu);
 	}
-
+	
 	public void fechaSistema(){
 	}
 }

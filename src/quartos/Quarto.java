@@ -6,7 +6,6 @@ import sistemaexception.ValorInvalidoException;
 
 public abstract class Quarto implements Quartos{
 
-	private boolean estadoQuarto;
 	private double valorQuarto;
 	private String numeroDoQuarto;
 	private ExceptionMetodosQuarto exception;
@@ -17,20 +16,11 @@ public abstract class Quarto implements Quartos{
 		this.exception.exceptionStringVazia(numQuarto);
 		
 		this.valorQuarto = valorQuarto;
-		this.estadoQuarto = false;
 		this.numeroDoQuarto = numQuarto;
 		
 	}
 	public String getNumeroDoQuarto() {
 		return numeroDoQuarto;
-	}
-	
-	public boolean isEstadoQuarto() {
-		return estadoQuarto;
-	}
-	
-	public void setEstadoQuarto(boolean estado) {
-		this.estadoQuarto = estado;
 	}
 	
 	public double getValorQuarto() {
@@ -39,27 +29,35 @@ public abstract class Quarto implements Quartos{
 
 	public abstract String getTipo();
 
+	
+		
 	@Override
 	public int hashCode() {
-		return getNumeroDoQuarto().hashCode();
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((numeroDoQuarto == null) ? 0 : numeroDoQuarto.hashCode());
+		long temp;
+		temp = Double.doubleToLongBits(valorQuarto);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		return result;
 	}
-
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof Quarto){
 			Quarto quarto = (Quarto) obj;
-			if(quarto.getValorQuarto() == this.getValorQuarto()){
+			if(quarto.getValorQuarto() == this.getValorQuarto() && quarto.getNumeroDoQuarto().equals(this.getNumeroDoQuarto())){
 				return true;
 			}
 		}
 		return false;
 	}
-		
+	
 	@Override
 	public String toString(){
 		return "Quarto " + this.getTipo() + ":" + 
 				"\nValor do quarto = " + this.getValorQuarto() +
-				"\nEstado do quarto = " + this.isEstadoQuarto();
+				"\nNumero do quarto: " + this.getNumeroDoQuarto();
 	}
 
 }

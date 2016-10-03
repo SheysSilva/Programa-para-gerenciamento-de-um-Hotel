@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import recepcao.Recepcao;
 import sistemaexception.AtributoInexistenteException;
 import sistemaexception.ComponenteRefeicaoVazioException;
 import sistemaexception.NomePratoVazioException;
@@ -95,7 +96,7 @@ public class Restaurante{
 	}
 	
 	public String realizaPedido(String email, String itemMenu) throws Exception{
-		for (ItensDoCardapio item : cardapio) {
+		for (ItensDoCardapio item : cardapio) {			
 			if (item.getNome().equalsIgnoreCase(itemMenu)){
 				if (item.getPrecoString() == null){
 					return getPrecoRefeicaoString(itemMenu);

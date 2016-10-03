@@ -2,8 +2,8 @@ package controller;
 
 
 import java.text.ParseException;
-import java.util.HashMap;
 
+import exceptionsmetodos.ExceptionMetodosHotel;
 import hospede.Hospede;
 import quartos.FactoryQuarto;
 import quartos.Quarto;
@@ -13,6 +13,7 @@ import sistemaexception.AtualizaCadastroException;
 import sistemaexception.AtualizaDataNascimentoHospedeFormatException;
 import sistemaexception.AtualizaDataNascimentoNullException;
 import sistemaexception.AtualizaEmailHospedeException;
+import sistemaexception.AtualizaMenorDeIdadeException;
 import sistemaexception.AtualizaNomeHospedeException;
 import sistemaexception.DataNascimentoNullException;
 import sistemaexception.EmailHospedeException;
@@ -21,6 +22,9 @@ import sistemaexception.HospedeInexistenteException;
 import sistemaexception.MenorDeIdadeException;
 import sistemaexception.NomeHospedeException;
 import sistemaexception.NomeHospedeInvalidoException;
+import sistemaexception.ObjetoNullException;
+import sistemaexception.QuartoInexistenteException;
+import sistemaexception.QuartoInvalidoException;
 import sistemaexception.ValorInvalidoException;
 
 
@@ -28,24 +32,22 @@ import sistemaexception.ValorInvalidoException;
 public class HotelController {
 	
 	private Restaurante restaurante;
-	
 	private Recepcao recepcao;
-	private HashMap<String, Quarto> quartos;
+	private FactoryQuarto factoryQuarto;
+	private ExceptionMetodosHotel exceptionHotel;
 
 	
 	public HotelController(){
 		this.recepcao = new Recepcao();
-		this.quartos = new HashMap<String, Quarto>();
 		this.restaurante  = new Restaurante();
+		this.exceptionHotel =  new ExceptionMetodosHotel();
+		this.factoryQuarto = new FactoryQuarto();
 	}
 	
-	private Quarto criaQuarto(String tipoQuarto, String numQuarto) throws Exception{
-		FactoryQuarto factory = new FactoryQuarto();
-		Quarto quarto = factory.criaQuarto(tipoQuarto, numQuarto);
-		this.quartos.put(numQuarto, quarto);
-		return quarto;
+	private Quarto criaQuarto(String tipoQuarto, String numQuarto) throws QuartoInexistenteException, ValorInvalidoException, ObjetoNullException{
+		return this.factoryQuarto.criaQuarto(tipoQuarto, numQuarto);
 	}
-
+	
 	public String cadastraHospede(String nome, String email, String anoNascimento) throws NomeHospedeInvalidoException, NomeHospedeException, EmailHospedeException, FormatoDataException, DataNascimentoNullException, MenorDeIdadeException, ParseException{
 		return this.recepcao.cadastraHospede(nome, email, anoNascimento);
 	}
@@ -62,28 +64,54 @@ public class HotelController {
 		this.recepcao.getInfoHospedagem(email, Hospedagem);
 	}
 	
-	public void realizaCheckin(String email, int quantDias, String numQuarto, String tipo) throws Exception{
-		this.recepcao.realizaCheckin(email, quantDias, this.criaQuarto(tipo, numQuarto));
+	public void realizaCheckin(String email, int quantDias, String numQuarto, String tipo) throws ValorInvalidoException, QuartoInexistenteException, HospedeInexistenteException, ObjetoNullException, QuartoInvalidoException, Exception {
+		this.exceptionHotel.exceptionChekin(email, quantDias, numQuarto);
+		this.recepcao.realizaCheckin(email, quantDias,this.criaQuarto(tipo, numQuarto));
 	}
 	
-	public String realizarCheckout(String email, double pagamento) throws HospedeInexistenteException, ValorInvalidoException {
-       return this.recepcao.checkout(email, pagamento);
+	public String realizarCheckout(String email, String numQuarto) throws HospedeInexistenteException, ValorInvalidoException, QuartoInvalidoException {
+       return this.recepcao.realizacheckout(email, numQuarto);
     }
 
-	public String atualizaCadastro(String email, String atributo, String valor) throws AtualizaDataNascimentoHospedeFormatException, DataNascimentoNullException, AtualizaDataNascimentoNullException, ParseException, HospedeInexistenteException, AtualizaNomeHospedeException, AtualizaEmailHospedeException, AtualizaCadastroException{
-		switch(atributo.toUpperCase().trim()){
-		case "DATADENASCIMENTO":
-			return this.recepcao.atualizaCadastroData(email, valor);
-		case "NOME":
-			return this.recepcao.atualizaCadastroNome(email, valor);
-		case "EMAIL":
-			return this.recepcao.atualizaCadastroEmail(email, valor);
-		default:
-			throw new AtualizaCadastroException();
+	public String atualizaCadastro(String email, String atributo, String valor) throws AtualizaDataNascimentoNullException, AtualizaDataNascimentoHospedeFormatException, AtualizaMenorDeIdadeException, HospedeInexistenteException, AtualizaNomeHospedeException, AtualizaEmailHospedeException, AtualizaCadastroException{
+		String[] str = atributo.toUpperCase().trim().split(" ");
+		switch(str[0]){
+			case "DATA":
+				return this.recepcao.atualizaCadastroData(email, valor);
+			case "NOME":
+				return this.recepcao.atualizaCadastroNome(email, valor);
+			case "EMAIL":
+				return this.recepcao.atualizaCadastroEmail(email, valor);
+			default:
+				throw new AtualizaCadastroException();
 		}
-
+	}
+	
+	public String consultaTransacoes(String tipo) throws Exception{
+		switch(tipo.trim().toUpperCase()){
+			case "TOTAL":
+				return this.recepcao.transacaoTotal();
+			case "QUANTIDADE":
+				return this.recepcao.transacaoQuantidade();
+			case "NOME":
+				return this.recepcao.transacaoNome();
+			default:
+				throw new Exception("Erro");
+		}
 		
 	}
+	
+	public String consultaTransacoes(String tipo, int indice) throws Exception{
+		switch(tipo.trim().toUpperCase()){
+		case "TOTAL":
+			return this.recepcao.transacaoTotal(indice);
+		case "NOME":
+			return this.recepcao.transacaoNome(indice);
+		default:
+			throw new Exception("Erro");
+		}
+	}
+	
 	
 	public void cadastraPrato(String nome, double preco, String especificacao) throws Exception{
 		restaurante.cadastraPrato(nome, preco, especificacao);
@@ -108,4 +136,5 @@ public class HotelController {
 	public String realizaPedido(String email, String itemMenu) throws Exception{
 		return restaurante.realizaPedido(email, itemMenu);
 	}
+
 }
