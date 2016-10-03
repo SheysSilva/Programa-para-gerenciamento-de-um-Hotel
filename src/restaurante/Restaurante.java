@@ -1,6 +1,7 @@
 package restaurante;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import sistemaexception.AtributoInexistenteException;
@@ -13,12 +14,16 @@ import sistemaexception.PratoInexistenteRefeicaoException;
 import sistemaexception.RefeicaoInexistenteException;
 import sistemaexception.RefeicaoJaCadastradaException;
 
-public class Restaurante {
+public class Restaurante{
 	private List<ItensDoCardapio> cardapio;
 	
 	public Restaurante(){
 		this.cardapio = new ArrayList<ItensDoCardapio>();
 	}
+	
+	/*
+	 * Os tres primeiros metodos sao os testes do caso de uso 4
+	 */
 	
 	// CADASTRO DE PRATO
 	
@@ -67,6 +72,27 @@ public class Restaurante {
 		throw new Exception("Prato ou refeicao nao existe.");
 	}
 	
+	/*
+	 * Os dois proximos metodos sao testes para o caso de uso 5
+	 */
+	
+	public void ordenaMenu(String tipoOrdenacao) throws Exception{
+		if (tipoOrdenacao == null || tipoOrdenacao.isEmpty()){
+			throw new Exception("tipo invalido.");
+		}else if (tipoOrdenacao.equalsIgnoreCase("nome")){
+			ordenaPorNome();
+		}	
+	}
+	
+	public String consultaMenuRestaurante(){
+		String imprimeCardapio = "";
+		for (ItensDoCardapio item : cardapio) {
+			imprimeCardapio += ";";
+			imprimeCardapio += item.getNome();
+		}
+		imprimeCardapio = imprimeCardapio.substring(1);
+		return imprimeCardapio;
+	}
 	
 	private void verificaNomeConsulta(String nome) throws Exception{
 		if (nome == null || nome.trim().isEmpty()){
@@ -142,7 +168,7 @@ public class Restaurante {
 	
 	// CALCULA O PRECO DE UMA REFEICAO COMPLETA COM DESCONTO
 	
-	private double getPrecoRefeicao(String nome) throws Exception{
+	public double getPrecoRefeicao(String nome) throws Exception{
 		if (nome == null || nome.trim().isEmpty()){
 			throw new NomeRefeicaoVazioException("nome null ou vazio.");
 		}
@@ -174,4 +200,12 @@ public class Restaurante {
 	private String getPrecoRefeicaoString(String nome) throws Exception{
 		return String.format("R$%.2f", getPrecoRefeicao(nome));
 	}
+	
+	// METODO QUE ORDENA O CARDAPIO POR ORDEM ALFABETICA
+	
+	public List<ItensDoCardapio> ordenaPorNome(){
+		
+		Collections.sort(cardapio, new NomeComparator());
+		return cardapio;
+	}	
 }

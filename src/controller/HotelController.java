@@ -96,5 +96,13 @@ public class HotelController {
 	public void cadastraRefeicao(String nome, String descricao, String componentes) throws Exception{
 		restaurante.cadastraRefeicao(nome, descricao, componentes);
 	}
+	
+	public void ordenaMenu(String tipoOrdenacao) throws Exception{
+		restaurante.ordenaMenu(tipoOrdenacao);
+	}
+	
+	public String consultaMenuRestaurante(){
+		return restaurante.consultaMenuRestaurante();
+	}
 
 }

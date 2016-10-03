@@ -75,6 +75,14 @@ public class FacadeHotel {
 		
 	}
 	
+	public void ordenaMenu(String tipoOrdenacao) throws Exception{
+		hotel.ordenaMenu(tipoOrdenacao);
+	}
+	
+	public String consultaMenuRestaurante(){
+		return hotel.consultaMenuRestaurante();
+	}
+	
 	public void fechaSistema(){
 	}
 }
