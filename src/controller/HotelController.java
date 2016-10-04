@@ -25,6 +25,7 @@ import sistemaexception.NomeHospedeInvalidoException;
 import sistemaexception.ObjetoNullException;
 import sistemaexception.QuartoInexistenteException;
 import sistemaexception.QuartoInvalidoException;
+import sistemaexception.TransacaoException;
 import sistemaexception.ValorInvalidoException;
 
 
@@ -64,13 +65,14 @@ public class HotelController {
 		this.recepcao.getInfoHospedagem(email, Hospedagem);
 	}
 	
-	public void realizaCheckin(String email, int quantDias, String numQuarto, String tipo) throws ValorInvalidoException, QuartoInexistenteException, HospedeInexistenteException, ObjetoNullException, QuartoInvalidoException, Exception {
+	public void realizaCheckin(String email, int quantDias, String numQuarto, String tipo) throws QuartoInexistenteException, ValorInvalidoException, ObjetoNullException, HospedeInexistenteException, QuartoInvalidoException, EmailHospedeException {
 		this.exceptionHotel.exceptionChekin(email, quantDias, numQuarto);
 		this.recepcao.realizaCheckin(email, quantDias,this.criaQuarto(tipo, numQuarto));
 	}
 	
-	public String realizarCheckout(String email, String numQuarto) throws HospedeInexistenteException, ValorInvalidoException, QuartoInvalidoException {
-       return this.recepcao.realizacheckout(email, numQuarto);
+	public String realizarCheckout(String email, String numQuarto) throws HospedeInexistenteException, ValorInvalidoException, QuartoInvalidoException, EmailHospedeException, ObjetoNullException {
+		this.exceptionHotel.exceptionCheckout(email, numQuarto);
+		return this.recepcao.realizacheckout(email, numQuarto);
     }
 
 	public String atualizaCadastro(String email, String atributo, String valor) throws AtualizaDataNascimentoNullException, AtualizaDataNascimentoHospedeFormatException, AtualizaMenorDeIdadeException, HospedeInexistenteException, AtualizaNomeHospedeException, AtualizaEmailHospedeException, AtualizaCadastroException{
@@ -87,7 +89,7 @@ public class HotelController {
 		}
 	}
 	
-	public String consultaTransacoes(String tipo) throws Exception{
+	public String consultaTransacoes(String tipo) throws TransacaoException {
 		switch(tipo.trim().toUpperCase()){
 			case "TOTAL":
 				return this.recepcao.transacaoTotal();
@@ -96,19 +98,20 @@ public class HotelController {
 			case "NOME":
 				return this.recepcao.transacaoNome();
 			default:
-				throw new Exception("Erro");
+				throw new TransacaoException();
 		}
 		
 	}
 	
-	public String consultaTransacoes(String tipo, int indice) throws Exception{
+	public String consultaTransacoes(String tipo, int indice) throws TransacaoException, ValorInvalidoException {
+		this.exceptionHotel.exceptionIndiceInvalido(indice);
 		switch(tipo.trim().toUpperCase()){
 		case "TOTAL":
 			return this.recepcao.transacaoTotal(indice);
 		case "NOME":
 			return this.recepcao.transacaoNome(indice);
 		default:
-			throw new Exception("Erro");
+			throw new TransacaoException();
 		}
 	}
 	
@@ -123,18 +126,6 @@ public class HotelController {
 	
 	public void cadastraRefeicao(String nome, String descricao, String componentes) throws Exception{
 		restaurante.cadastraRefeicao(nome, descricao, componentes);
-	}
-	
-	public void ordenaMenu(String tipoOrdenacao) throws Exception{
-		restaurante.ordenaMenu(tipoOrdenacao);
-	}
-	
-	public String consultaMenuRestaurante(){
-		return restaurante.consultaMenuRestaurante();
-	}
-	
-	public String realizaPedido(String email, String itemMenu) throws Exception{
-		return restaurante.realizaPedido(email, itemMenu);
 	}
 
 }

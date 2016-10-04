@@ -11,9 +11,7 @@ import historicocheckout.FactoryHistoricoCheckout;
 import historicocheckout.HistoricoCheckout;
 import hospede.FactoryHospede;
 import hospede.Hospede;
-import quartos.FactoryQuarto;
 import quartos.Quarto;
-import restaurante.Restaurante;
 import sistemaexception.AtualizaDataNascimentoHospedeFormatException;
 import sistemaexception.AtualizaDataNascimentoNullException;
 import sistemaexception.AtualizaEmailHospedeException;
@@ -37,10 +35,10 @@ public class Recepcao {
 	private FactoryHospede factoryHospede;
 	private FactoryEstadia factoryEstadia;
 	private FactoryHistoricoCheckout factoryCheckout;
-	public HashMap<String,Hospede> hospedes;
+	private HashMap<String,Hospede> hospedes;
 	private HashSet<Quarto> ocupado;
 	private HashSet<Quarto> desocupado;
-	public ArrayList<HistoricoCheckout> historico;
+	private ArrayList<HistoricoCheckout> historico;
 	
 	
 	public Recepcao(){
@@ -144,19 +142,20 @@ public class Recepcao {
 		}else{
 			throw new HospedeInexistenteException();
 		}
-		return String.format("R$%,.2f", totalPago);
+		return String.format("R$%.2f", totalPago);
 	}
 	
 	public String transacaoTotal(){
 		double total = 0;
 		for(HistoricoCheckout checkout: this.historico){
-			total+= checkout.getTotalPago();
+			total += checkout.getTotalPago();
 		}
+		
 		return String.format("R$%.2f", total);
 	}
 	
 	public String transacaoQuantidade(){
-		return this.historico.size() + "";
+		return String.valueOf(this.historico.size()) ;
 		
 	}
 	public String transacaoNome(){
@@ -165,7 +164,6 @@ public class Recepcao {
 			nomes = nomes + ";" + checkout.getNomeDoHospede();
 		}
 		
-		nomes = nomes.substring(1);
 		return nomes;
 	}
 	

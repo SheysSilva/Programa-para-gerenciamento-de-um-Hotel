@@ -20,6 +20,7 @@ import sistemaexception.NomeHospedeInvalidoException;
 import sistemaexception.ObjetoNullException;
 import sistemaexception.QuartoInexistenteException;
 import sistemaexception.QuartoInvalidoException;
+import sistemaexception.TransacaoException;
 import sistemaexception.ValorInvalidoException;
 
 public class FacadeHotel {
@@ -55,15 +56,15 @@ public class FacadeHotel {
 		
 	}
 
-	public String realizaCheckout(String email, String numQuarto) throws ValorInvalidoException, HospedeInexistenteException, QuartoInvalidoException {
+	public String realizaCheckout(String email, String numQuarto) throws ValorInvalidoException, HospedeInexistenteException, QuartoInvalidoException, EmailHospedeException, ObjetoNullException {
 		return this.hotel.realizarCheckout(email, numQuarto);	
 	}
 	
-	public String consultaTransacoes(String tipo) throws Exception{
+	public String consultaTransacoes(String tipo) throws TransacaoException {
 		return this.hotel.consultaTransacoes(tipo);
 	}
 	
-	public String consultaTransacoes(String tipo, int indice) throws Exception{
+	public String consultaTransacoes(String tipo, int indice) throws ValorInvalidoException, TransacaoException {
 		return this.hotel.consultaTransacoes(tipo, indice);
 	}
 	
@@ -85,18 +86,6 @@ public class FacadeHotel {
 	public void cadastraRefeicao(String nome, String descricao, String componentes) throws Exception{
 		this.hotel.cadastraRefeicao(nome, descricao, componentes);
 		
-	}
-	
-	public void ordenaMenu(String tipoOrdenacao) throws Exception{
-		hotel.ordenaMenu(tipoOrdenacao);
-	}
-	
-	public String consultaMenuRestaurante(){
-		return hotel.consultaMenuRestaurante();
-	}
-	
-	public String realizaPedido(String email, String itemMenu) throws Exception{
-		return hotel.realizaPedido(email, itemMenu);
 	}
 	
 	public void fechaSistema(){
