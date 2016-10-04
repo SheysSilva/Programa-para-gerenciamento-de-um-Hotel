@@ -1,8 +1,6 @@
 package restaurante;
 
-import java.util.ArrayList;
-
-public abstract class ItensDoCardapio {
+public abstract class ItensDoCardapio{
 	
 	private String nome;
 	private String descricao;
@@ -14,9 +12,7 @@ public abstract class ItensDoCardapio {
 	
 	public abstract double getPreco();
 	
-	public abstract String getPrecoString();
-	
-	public abstract ArrayList<String> getComponentes();
+	public abstract String getPrecoString();	
 	
 	public abstract String getDescricao();
 

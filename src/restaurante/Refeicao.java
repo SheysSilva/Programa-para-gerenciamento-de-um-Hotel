@@ -3,15 +3,12 @@ package restaurante;
 import java.util.ArrayList;
 
 import sistemaexception.CadastroDeRefeicaoVazioException;
-import sistemaexception.ComponenteRefeicaoVazioException;
-import sistemaexception.NumeroDePratosRefeicaoException;
-import sistemaexception.PratoInexistenteRefeicaoException;
 
 public class Refeicao extends ItensDoCardapio{
 
-	private ArrayList<String> componentes;
+	private ArrayList<Prato> componentes;
 	
-	public Refeicao(String nome, String descricao, ArrayList<String> componentes) throws Exception {
+	public Refeicao(String nome, String descricao, ArrayList<Prato> componentes) throws Exception {
 		super(nome, descricao);
 		
 		verificaNome(nome);
@@ -31,11 +28,11 @@ public class Refeicao extends ItensDoCardapio{
 		}
 	}
 
-	public ArrayList<String> getComponentes() {
+	public ArrayList<Prato> getComponentes() {
 		return componentes;
 	}
 
-	public void setComponentes(ArrayList<String> componentes) {
+	public void setComponentes(ArrayList<Prato> componentes) {
 		this.componentes = componentes;
 	}
 	
@@ -44,19 +41,23 @@ public class Refeicao extends ItensDoCardapio{
 	}
 	
 	public double getPreco() {
-		return 1;
+		double preco = 0;
+		for (Prato prato : componentes) {
+			preco += prato.getPreco();
+		}
+		return preco * 0.9;
 	}
 
 	@Override
 	public String getPrecoString() {
-		return null;
+		return String.format("R$%.2f", this.getPreco());
 	}
 	
 	private String toStringComponentes(){
 		String impressao = "";
 		for (int i = 0; i < componentes.size(); i++) {
 			impressao += ", ";
-			impressao += "(" + (i + 1) + ") " + componentes.get(i);
+			impressao += "(" + (i + 1) + ") " + componentes.get(i).getNome();
 		}
 		impressao = impressao.substring(2);
 		return impressao;
@@ -93,4 +94,5 @@ public class Refeicao extends ItensDoCardapio{
 	public String toString(){
 		return this.getDescricaoItem() + " Serao servidos: " + toStringComponentes() + ".";				
 	}
+
 }

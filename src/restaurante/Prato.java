@@ -83,11 +83,4 @@ public class Prato extends ItensDoCardapio{
 	public String toString(){
 		return "(" + this.getNome() + ", " + this.preco + ", " + this.getDescricao() + ")";  
 	}
-
-	// METODO UTILIZADO APENAS PARA BUSCAR COMPONENTES DE UMA REFEICAO
-	
-	@Override
-	public ArrayList<String> getComponentes() {
-		return null;
-	}
 }

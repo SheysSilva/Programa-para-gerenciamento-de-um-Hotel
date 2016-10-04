@@ -88,6 +88,18 @@ public class FacadeHotel {
 		
 	}
 	
+	public void ordenaMenu(String tipoOrdenacao) throws Exception{
+		hotel.ordenaMenu(tipoOrdenacao);
+	}
+	
+	public String consultaMenuRestaurante(){
+		return hotel.consultaMenuRestaurante();
+	}
+	
+	public String realizaPedido(String email, String itemMenu) throws Exception{
+		return hotel.realizaPedido(email, itemMenu);
+	}
+	
 	public void fechaSistema(){
 	}
 }
