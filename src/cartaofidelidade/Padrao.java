@@ -30,7 +30,6 @@ public class Padrao implements CartaoFidelidade{
 		this.setPontos((int) (this.getPontos() + pagamento * 0.1));
 	}
 
-	@Override
 	public double aplicaDesconto(double cobranca) {
 		return cobranca + cobranca * this.getPorcentagem();
 	}
@@ -38,9 +37,13 @@ public class Padrao implements CartaoFidelidade{
 	@Override
 	public void pagaDivida(double divida) {
 		
-		
 	}
 
+	@Override
+	public double getDesconto(double cobranca) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 
 	
 }

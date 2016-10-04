@@ -54,22 +54,4 @@ public class TestesQuartos {
 
 	}
 	
-	@Test
-	public void testEstadoDoQuarto(){
-		//Quarto disponivel
-		Assert.assertFalse(this.simples.isEstadoQuarto());
-		Assert.assertFalse(this.luxo.isEstadoQuarto());
-		Assert.assertFalse(this.presidencial.isEstadoQuarto());
-		
-		//Quarto ocupado
-		this.simples.setEstadoQuarto(true);
-		this.luxo.setEstadoQuarto(true);
-		this.presidencial.setEstadoQuarto(true);
-		
-		Assert.assertTrue(this.simples.isEstadoQuarto());
-		Assert.assertTrue(this.luxo.isEstadoQuarto());
-		Assert.assertTrue(this.presidencial.isEstadoQuarto());
-		
-	}
-	
 }

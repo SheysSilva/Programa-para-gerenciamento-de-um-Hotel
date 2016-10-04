@@ -9,7 +9,7 @@ import java.util.Iterator;
 import estadia.Estadia;
 import estadia.FactoryEstadia;
 import historicocheckout.FactoryHistoricoCheckout;
-import historicocheckout.HistoricoCheckout;
+import historicocheckout.Transacao;
 import hospede.FactoryHospede;
 import hospede.Hospede;
 import quartos.Quarto;
@@ -39,7 +39,7 @@ public class Recepcao {
 	private HashMap<String,Hospede> hospedes;
 	private HashSet<Quarto> ocupado;
 	private HashSet<Quarto> desocupado;
-	private ArrayList<HistoricoCheckout> historico;
+	private ArrayList<Transacao> historico;
 	
 	
 	public Recepcao(){
@@ -49,7 +49,7 @@ public class Recepcao {
 		this.hospedes = new HashMap<String,Hospede>();
 		this.desocupado = new HashSet<Quarto>();
 		this.ocupado = new HashSet< Quarto>();
-		this.historico =  new ArrayList<HistoricoCheckout> ();
+		this.historico =  new ArrayList<Transacao> ();
 		
 
 	}
@@ -80,7 +80,7 @@ public class Recepcao {
 		if(this.hospedes.containsKey(email)){
 			return this.hospedes.get(email);
 		}else{
-			throw new HospedeInexistenteException();
+			throw new HospedeInexistenteException("Erro na consulta de hospede. Hospede de email " + email + " nao foi cadastrado(a).");
 		}
 	}
 
@@ -136,7 +136,7 @@ public class Recepcao {
 				Estadia estadia = iterator.next();
 				if(estadia.getQuarto().getNumeroDoQuarto().equals(numquarto)){
 					totalPago += estadia.getValorTotal();
-					HistoricoCheckout checkout = this.factoryCheckout.criaCheckout(buscaHospede(email).getNome(), estadia.getQuarto().getNumeroDoQuarto(), estadia.getValorTotal());
+					Transacao checkout = this.factoryCheckout.criaCheckout(buscaHospede(email).getNome(), estadia.getQuarto().getNumeroDoQuarto(), estadia.getValorTotal());
 					this.historico.add(checkout);
 					this.desocupado.add(estadia.getQuarto());
 					this.ocupado.remove(estadia.getQuarto());
@@ -149,9 +149,23 @@ public class Recepcao {
 		return String.format("R$%.2f", totalPago);
 	}
 	
+	public String getInfoHospedeNome(String email) throws HospedeInexistenteException{
+		return this.buscaHospede(email).getNome();
+		
+	}
+	
+	public String getInfoHospedeEmail(String email) throws HospedeInexistenteException{
+		return this.buscaHospede(email).getEmail();
+		
+	}
+	
+	public String getInfoHospedeDataNascimento(String email) throws HospedeInexistenteException{
+		return this.buscaHospede(email).getAnoNascimento();
+	}
+	
 	public String transacaoTotal(){
 		double total = 0;
-		for(HistoricoCheckout checkout: this.historico){
+		for(Transacao checkout: this.historico){
 			total += checkout.getTotalPago();
 		}
 		
@@ -182,32 +196,21 @@ public class Recepcao {
 	public void removeHospede(String email){
 		
 	}
-	public String getInfoHospedagem(String email, String atributo) throws HospedeInexistenteException {
-		String retorno = null;
-		switch(atributo) {
-			case "Hospedagens ativas":
-				retorno = this.getHospedagensAtivas(email);
-			case "Quarto":
-				retorno = this.getQuarto(email);
-			case "Total":
-				retorno = this.getTotalPago(email);
-		}
-		return retorno;
-	}
+	
 
-	private String getQuarto(String email) throws HospedeInexistenteException {
+	public String getQuarto(String email) throws HospedeInexistenteException {
 		Hospede hospede = buscaHospede(email);
 		for(Estadia estadia: hospede.getEstadias())
 			return estadia.getQuarto().getNumeroDoQuarto();
 		return null;
 	}
 
-	private String getTotalPago(String email) throws HospedeInexistenteException {
+	public String getTotalPago(String email) throws HospedeInexistenteException {
 		Hospede hospede = buscaHospede(email);
 		return "R$: " + String.valueOf(hospede.getDebito());
 	}
 
-	private String getHospedagensAtivas(String email) throws HospedeInexistenteException {
+	public String getHospedagensAtivas(String email) throws HospedeInexistenteException {
 		Hospede hospede = buscaHospede(email);
 		return String.valueOf(hospede.getEstadias().size());
 	}

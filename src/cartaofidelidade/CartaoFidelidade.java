@@ -11,7 +11,7 @@ public interface CartaoFidelidade {
 	
 	public void adicionaPontos(double pagamento);
 	
-	public double aplicaDesconto(double cobranca);
+	public double getDesconto(double cobranca);
 	
 	public void pagaDivida(double divida);
 

@@ -13,6 +13,7 @@ import sistemaexception.AtualizaNomeHospedeException;
 import sistemaexception.DataNascimentoNullException;
 import sistemaexception.EmailHospedeException;
 import sistemaexception.FormatoDataException;
+import sistemaexception.GetInfoException;
 import sistemaexception.HospedeInexistenteException;
 import sistemaexception.MenorDeIdadeException;
 import sistemaexception.NomeHospedeException;
@@ -87,17 +88,8 @@ public class FacadeHotel {
 		this.hotel.cadastraRefeicao(nome, descricao, componentes);
 		
 	}
-	
-	public void ordenaMenu(String tipoOrdenacao) throws Exception{
-		hotel.ordenaMenu(tipoOrdenacao);
-	}
-	
-	public String consultaMenuRestaurante(){
-		return hotel.consultaMenuRestaurante();
-	}
-	
-	public String realizaPedido(String email, String itemMenu) throws Exception{
-		return hotel.realizaPedido(email, itemMenu);
+	public String getInfoHospede(String email, String atributo) throws HospedeInexistenteException, GetInfoException {
+		return this.hotel.getInfoHospede(email, atributo);
 	}
 	
 	public void fechaSistema(){

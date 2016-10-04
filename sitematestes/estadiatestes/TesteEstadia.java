@@ -75,7 +75,7 @@ public class TesteEstadia {
 		Assert.assertEquals(this.estadiaLuxo.getDias(), 10);
 		Assert.assertEquals(this.estadiaPresidencial.getDias(), 10);
 		
-		//Mudança nos dias
+		//Mudanï¿½a nos dias
 		this.estadiaSimples.setDias(13);	
 		this.estadiaLuxo.setDias(13);
 		this.estadiaPresidencial.setDias(13);
@@ -88,7 +88,7 @@ public class TesteEstadia {
 	
 	@Test 
 	public void testDiasException(){
-		//Mudança nos dias
+		//Mudanï¿½a nos dias
 		try {
 			this.estadiaSimples.setDias(-1);
 		} catch (ValorInvalidoException e) {
@@ -115,22 +115,6 @@ public class TesteEstadia {
 		Assert.assertEquals(this.estadiaSimples.getValorDiariaQuarto(), 100.0, 0.0);
 		Assert.assertEquals(this.estadiaLuxo.getValorDiariaQuarto(), 250.0, 0.0);
 		Assert.assertEquals(this.estadiaPresidencial.getValorDiariaQuarto(), 450.0, 0.0);
-	}
-	
-	@Test
-	public void testEstadoDoQuarto(){
-		Assert.assertFalse(this.estadiaSimples.isEstadoDoQuarto());
-		Assert.assertFalse(this.estadiaLuxo.isEstadoDoQuarto());
-		Assert.assertFalse(this.estadiaPresidencial.isEstadoDoQuarto());
-		
-		//Quarto Ocupado
-		this.estadiaSimples.setEstadoDoQuarto(true);
-		this.estadiaLuxo.setEstadoDoQuarto(true);
-		this.estadiaPresidencial.setEstadoDoQuarto(true);
-		
-		Assert.assertTrue(this.estadiaSimples.isEstadoDoQuarto());
-		Assert.assertTrue(this.estadiaLuxo.isEstadoDoQuarto());
-		Assert.assertTrue(this.estadiaPresidencial.isEstadoDoQuarto());
 	}
 	
 	@Test

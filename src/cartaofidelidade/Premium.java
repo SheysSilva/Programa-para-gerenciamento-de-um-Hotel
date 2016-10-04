@@ -34,7 +34,6 @@ public class Premium implements CartaoFidelidade{
 		this.setPontos((int) (this.getPontos() + (pagamento * 0.3) + adicional));
 	}
 
-	@Override
 	public double aplicaDesconto(double cobranca) {
 		return cobranca * this.getPorcentagem();
 	}
@@ -43,6 +42,12 @@ public class Premium implements CartaoFidelidade{
 	public void pagaDivida(double divida) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public double getDesconto(double cobranca) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 	

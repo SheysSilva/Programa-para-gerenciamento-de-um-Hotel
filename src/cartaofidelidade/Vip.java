@@ -30,7 +30,6 @@ public class Vip implements CartaoFidelidade{
 		this.setPontos((int) (this.getPontos() + pagamento * 0.5));
 	}
 
-	@Override
 	public double aplicaDesconto(double cobranca) {
 		int adicional = 0;
 		if(cobranca >= 100){
@@ -44,6 +43,12 @@ public class Vip implements CartaoFidelidade{
 	public void pagaDivida(double divida) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public double getDesconto(double cobranca) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 	
