@@ -81,7 +81,7 @@ public class ExceptionMetodosHospede extends ExceptionMetodos{
 			throw new FormatoDataException();
 		}
 	}
-	@SuppressWarnings("deprecation")
+	
 	public void exceptionMenorDeIdade(String dataNascimento) throws FormatoDataException, DataNascimentoNullException, ParseException, MenorDeIdadeException {
 		this.exceptionDataNascimentoHospedeFormat(dataNascimento);
 		String[] str = dataNascimento.split("/");
@@ -155,8 +155,6 @@ public class ExceptionMetodosHospede extends ExceptionMetodos{
 			throw new AtualizaMenorDeIdadeException();
 		}
 	}
-	
-	
 	
 }
 	

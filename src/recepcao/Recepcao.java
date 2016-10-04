@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 
 import estadia.Estadia;
 import estadia.FactoryEstadia;
@@ -129,14 +130,17 @@ public class Recepcao {
 		double totalPago = 0;
 		
 		if(this.hospedes.containsKey(email)) {
-			for(Estadia estadia: this.buscaHospede(email).getEstadias()) {
+			this.buscaHospede(email).getEstadias();;
+			Iterator<Estadia> iterator =this.buscaHospede(email).getEstadias().iterator();
+			while(iterator.hasNext()) {
+				Estadia estadia = iterator.next();
 				if(estadia.getQuarto().getNumeroDoQuarto().equals(numquarto)){
 					totalPago += estadia.getValorTotal();
 					HistoricoCheckout checkout = this.factoryCheckout.criaCheckout(buscaHospede(email).getNome(), estadia.getQuarto().getNumeroDoQuarto(), estadia.getValorTotal());
 					this.historico.add(checkout);
 					this.desocupado.add(estadia.getQuarto());
 					this.ocupado.remove(estadia.getQuarto());
-					this.buscaHospede(email).removeEstadia(estadia);	
+					iterator.remove();	
 					}
 				}
 		}else{
@@ -160,10 +164,10 @@ public class Recepcao {
 	}
 	public String transacaoNome(){
 		String nomes = "";
-		for(HistoricoCheckout checkout: this.historico){
-			nomes = nomes + ";" + checkout.getNomeDoHospede();
+		for(int i = 0; i < this.historico.size() -1; i++){
+			nomes = nomes + this.historico.get(i).getNomeDoHospede() + ";";
 		}
-		
+		nomes = nomes + this.historico.get(this.historico.size() - 1).getNomeDoHospede();
 		return nomes;
 	}
 	

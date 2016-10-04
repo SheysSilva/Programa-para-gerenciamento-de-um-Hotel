@@ -2,8 +2,9 @@ package hospede;
 
 import java.text.ParseException;
 import java.time.LocalDate;
-import java.util.HashSet;
 import java.time.format.DateTimeFormatter;
+import java.util.HashSet;
+
 import cartaofidelidade.CartaoFidelidade;
 import cartaofidelidade.FactoryCartaoFidelidade;
 import estadia.Estadia;
@@ -19,6 +20,7 @@ import sistemaexception.FormatoDataException;
 import sistemaexception.MenorDeIdadeException;
 import sistemaexception.NomeHospedeException;
 import sistemaexception.NomeHospedeInvalidoException;
+import sistemaexception.ObjetoNullException;
 import sistemaexception.ValorInvalidoException;
 
 public class Hospede {
@@ -74,7 +76,7 @@ public class Hospede {
 
 	public void setDataNascimento(String data) throws AtualizaDataNascimentoNullException, AtualizaDataNascimentoHospedeFormatException, AtualizaMenorDeIdadeException{
 		this.exception.exceptionAtualizaMenorDeIdade(data);
-		this.dataNascimento = dataNascimento;
+		this.dataNascimento = LocalDate.parse(data, format);;
 		
 	}
 	
@@ -86,7 +88,8 @@ public class Hospede {
 		return estadias;
 	}
 
-	public void adicionaEstadia(Estadia estadia) throws ValorInvalidoException {
+	public void adicionaEstadia(Estadia estadia) throws ValorInvalidoException, ObjetoNullException {
+		this.exception.exceptionObjetoNull(estadia);
 		this.getEstadias().add(estadia);
 		
 	}

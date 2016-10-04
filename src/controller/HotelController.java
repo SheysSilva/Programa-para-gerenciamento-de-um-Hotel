@@ -76,7 +76,7 @@ public class HotelController {
     }
 
 	public String atualizaCadastro(String email, String atributo, String valor) throws AtualizaDataNascimentoNullException, AtualizaDataNascimentoHospedeFormatException, AtualizaMenorDeIdadeException, HospedeInexistenteException, AtualizaNomeHospedeException, AtualizaEmailHospedeException, AtualizaCadastroException{
-		String[] str = atributo.toUpperCase().trim().split(" ");
+		String[] str = atributo.toUpperCase().split(" ");
 		switch(str[0]){
 			case "DATA":
 				return this.recepcao.atualizaCadastroData(email, valor);
