@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Assert;
 import org.junit.Test;
 
-import restaurante.Restaurante;
+import controllers.Restaurante;
 
 public class RestauranteTest {
 	

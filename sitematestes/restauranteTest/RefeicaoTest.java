@@ -4,7 +4,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import restaurante.Restaurante;
+import controllers.Restaurante;
 
 public class RefeicaoTest {
 	Restaurante restaurante = new Restaurante();

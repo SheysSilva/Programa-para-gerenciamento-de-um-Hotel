@@ -69,4 +69,22 @@ public class ExceptionMetodosHotel extends ExceptionMetodos{
 		}
 	}
 	
+	//GetInfoHospedagens
+	public void exceptionGetInfoHospedagens(String email) throws EmailHospedeException{
+		this.exceptionGetInfoEmail(email);
+		this.exceptionGetInfoEmailFormat(email);
+	}
+	
+	public void exceptionGetInfoEmail(String email) throws EmailHospedeException{
+		if (email == null || email.trim().isEmpty()) {
+			throw new EmailHospedeException("Erro ao checar hospedagem ativa. Email do(a) hospede nao pode ser vazio.");
+		}
+	}
+	
+	public void exceptionGetInfoEmailFormat(String email) throws EmailHospedeException{
+		this.exceptionEmailCheckout(email);
+		if(!(email.matches("^\\A[a-zA-Z]+@[a-zA-Z]+.[a-zA-Z]+.[a-zA-Z]+\\z$"))){
+			throw new EmailHospedeException("Erro ao checar hospedagem ativa. Email do(a) hospede esta invalido.");
+		}
+	}
 }

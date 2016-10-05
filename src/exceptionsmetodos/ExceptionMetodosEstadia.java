@@ -1,6 +1,6 @@
 package exceptionsmetodos;
 
-import quartos.Quarto;
+import Hospedagem.Quarto;
 import sistemaexception.ObjetoNullException;
 import sistemaexception.QuartoInexistenteException;
 import sistemaexception.ValorInvalidoException;

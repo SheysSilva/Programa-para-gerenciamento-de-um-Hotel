@@ -4,8 +4,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import cartaofidelidade.CartaoFidelidade;
-import cartaofidelidade.FactoryCartaoFidelidade;
+import Hospedagem.CartaoFidelidade;
+import factory.FactoryCartaoFidelidade;
 import sistemaexception.ValorInvalidoException;
 
 

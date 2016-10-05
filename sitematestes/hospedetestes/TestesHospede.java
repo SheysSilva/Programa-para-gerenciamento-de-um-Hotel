@@ -4,7 +4,7 @@ import java.text.ParseException;
 
 import org.junit.Test;
 
-import hospede.Hospede;
+import Hospedagem.Hospede;
 import sistemaexception.DataNascimentoNullException;
 import sistemaexception.EmailHospedeException;
 import sistemaexception.FormatoDataException;

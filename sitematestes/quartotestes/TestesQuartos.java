@@ -4,8 +4,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import quartos.FactoryQuarto;
-import quartos.Quarto;
+import Hospedagem.Quarto;
+import factory.FactoryQuarto;
 
 public class TestesQuartos {
 	private FactoryQuarto factory;
