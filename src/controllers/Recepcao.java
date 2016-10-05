@@ -33,6 +33,7 @@ import sistemaexception.QuartoInexistenteException;
 import sistemaexception.QuartoInvalidoException;
 import sistemaexception.TransacaoException;
 import sistemaexception.ValorInvalidoException;
+import sistemaexception.pontosInsuficientesException;
 
 
 public class Recepcao {
@@ -274,6 +275,11 @@ public class Recepcao {
 			default:
 				throw new GetInfoHospede("Erro na consulta de hospede. Hospede de " + email + " nao foi cadastrado(a).");
 		}
+	}
+	
+	public String convertePontos(String email, int pontos) throws HospedeInexistenteException, pontosInsuficientesException{
+		Hospede hosp = buscaHospede(email);
+		return hosp.getCartao().convertePontos(hosp,pontos);
 	}
 	
 	private String getInfoHospedeNome(String email) throws HospedeInexistenteException{

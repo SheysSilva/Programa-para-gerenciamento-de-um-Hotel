@@ -29,6 +29,7 @@ import sistemaexception.QuartoInexistenteException;
 import sistemaexception.QuartoInvalidoException;
 import sistemaexception.TransacaoException;
 import sistemaexception.ValorInvalidoException;
+import sistemaexception.pontosInsuficientesException;
 
 
 
@@ -116,5 +117,9 @@ public class HotelFacade {
 	
 	public String realizaPedido(String email, String itemMenu) throws Exception{
 		return restaurante.realizaPedido(email, itemMenu);
+	}
+	
+	public String convertePontos(String email, int pontos) throws HospedeInexistenteException, pontosInsuficientesException{
+		return recepcao.convertePontos(email, pontos);
 	}
 }
