@@ -4,7 +4,7 @@ package sistemaexception;
 public class DataNascimentoNullException extends EntradaException{
 
 	public DataNascimentoNullException(){
-		super("Erro no cadastro de Hospede. Data de Nascimento do(a) hospede nao pode ser vazio.");
+		super("Data de Nascimento do(a) hospede nao pode ser vazio.");
 	}
 	
 	public DataNascimentoNullException(String mensagem){

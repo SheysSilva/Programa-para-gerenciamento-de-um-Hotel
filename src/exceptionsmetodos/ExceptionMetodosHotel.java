@@ -1,90 +1,92 @@
 package exceptionsmetodos;
 
+import sistemaexception.ChecarHospedagemException;
+import sistemaexception.CheckoutException;
+import sistemaexception.ChekinException;
 import sistemaexception.EmailHospedeException;
-import sistemaexception.ObjetoNullException;
-import sistemaexception.ValorInvalidoException;
+import sistemaexception.IDInvalidoException;
+import sistemaexception.TransacaoException;
 
 public class ExceptionMetodosHotel extends ExceptionMetodos{
 	
-	public void exceptionChekin(String email, int dias, String numQuarto) throws EmailHospedeException, ValorInvalidoException, ObjetoNullException{
+	public void exceptionChekin(String email, int dias, String numQuarto) throws ChekinException {
 		this.exceptionEmailFormatHotel(email);
 		this.exceptionDiasInvalido(dias);
 		this.exceptionNumQuartoInvalido(numQuarto);
 	}
-	public void exceptionEmail(String email) throws EmailHospedeException{
+	public void exceptionEmail(String email) throws ChekinException  {
 		if (email == null || email.trim().isEmpty()) {
-			throw new EmailHospedeException("Erro ao realizar checkin. Email do(a) hospede nao pode ser vazio.");
+			throw new ChekinException(new ChekinException() + " " + new  EmailHospedeException() + " nao pode ser vazio.");
 		}
 	}
 	
-	public void exceptionEmailFormatHotel(String email) throws EmailHospedeException{
+	public void exceptionEmailFormatHotel(String email) throws ChekinException  {
 		this.exceptionEmail(email);
 		if(!(email.matches("^\\A[a-zA-Z]+@[a-zA-Z]+.[a-zA-Z]+.[a-zA-Z]+\\z$"))){
-			throw new EmailHospedeException("Erro ao realizar checkin. Email do(a) hospede esta invalido.");
+			throw new ChekinException(new ChekinException() + " " + new  EmailHospedeException() + " esta invalido.");
 		}
 	}
 	
-	public void exceptionNumQuartoInvalido(String numQuarto) throws ObjetoNullException {
+	public void exceptionNumQuartoInvalido(String numQuarto) throws ChekinException   {
 		if (numQuarto == null || numQuarto.trim().isEmpty() || (!numQuarto.matches("^\\A[0-9a-zA-Z_]+\\Z$"))) {
-			throw new ObjetoNullException("Erro ao realizar checkin. ID do quarto invalido, use apenas numeros ou letras.");
+			throw new ChekinException(new ChekinException() + " " + new IDInvalidoException());
 		}
 	}
 
-	public void exceptionDiasInvalido(int dias) throws ValorInvalidoException {
+	public void exceptionDiasInvalido(int dias) throws ChekinException   {
 		if (dias < 0) {
-			throw new ValorInvalidoException("Erro ao realizar checkin. Quantidade de dias esta invalida.");
+			throw new ChekinException(new ChekinException() + " Quantidade de dias esta invalida.");
 		}
 	}
-	
 	
 	//Checkout
 	
-	public void exceptionCheckout(String email, String numQuarto) throws EmailHospedeException, ValorInvalidoException, ObjetoNullException{
+	public void exceptionCheckout(String email, String numQuarto) throws CheckoutException {
 		this.exceptionEmailFormatHotelCheckout(email);
 		this.exceptionNumQuartoInvalidoCheckout(numQuarto);
 	}
-	public void exceptionEmailCheckout(String email) throws EmailHospedeException{
+	public void exceptionEmailCheckout(String email) throws CheckoutException  {
 		if (email == null || email.trim().isEmpty()) {
-			throw new EmailHospedeException("Erro ao realizar checkout. Email do(a) hospede nao pode ser vazio.");
+			throw new CheckoutException(new CheckoutException() + " " + new  EmailHospedeException() + " nao pode ser vazio.");
 		}
 	}
 	
-	public void exceptionEmailFormatHotelCheckout(String email) throws EmailHospedeException{
+	public void exceptionEmailFormatHotelCheckout(String email) throws CheckoutException  {
 		this.exceptionEmailCheckout(email);
 		if(!(email.matches("^\\A[a-zA-Z]+@[a-zA-Z]+.[a-zA-Z]+.[a-zA-Z]+\\z$"))){
-			throw new EmailHospedeException("Erro ao realizar checkout. Email do(a) hospede esta invalido.");
+			throw new CheckoutException(new CheckoutException() + " " + new  EmailHospedeException() + " esta invalido.");
 		}
 	}
 	
-	public void exceptionNumQuartoInvalidoCheckout(String numQuarto) throws ObjetoNullException {
+	public void exceptionNumQuartoInvalidoCheckout(String numQuarto) throws CheckoutException   {
 		if (numQuarto == null || numQuarto.trim().isEmpty() || (!numQuarto.matches("^\\A[0-9a-zA-Z_]+\\Z$"))) {
-			throw new ObjetoNullException("Erro ao realizar checkout. ID do quarto invalido, use apenas numeros ou letras.");
+			throw new CheckoutException(new CheckoutException() + " " + new IDInvalidoException());
 		}
 	}
 	
 	//Transacao
-	public void exceptionIndiceInvalido(int indice) throws ValorInvalidoException {
+	public void exceptionIndiceInvalido(int indice) throws TransacaoException {
 		if (indice < 0) {
-			throw new ValorInvalidoException("Erro na consulta de transacoes. Indice invalido.");
+			throw new TransacaoException(new TransacaoException() + " Indice invalido.");
 		}
 	}
 	
 	//GetInfoHospedagens
-	public void exceptionGetInfoHospedagens(String email) throws EmailHospedeException{
+	public void exceptionGetInfoHospedagens(String email) throws ChecarHospedagemException, CheckoutException  {
 		this.exceptionGetInfoEmail(email);
 		this.exceptionGetInfoEmailFormat(email);
 	}
 	
-	public void exceptionGetInfoEmail(String email) throws EmailHospedeException{
+	public void exceptionGetInfoEmail(String email) throws ChecarHospedagemException  {
 		if (email == null || email.trim().isEmpty()) {
-			throw new EmailHospedeException("Erro ao checar hospedagem ativa. Email do(a) hospede nao pode ser vazio.");
+			throw new ChecarHospedagemException(new ChecarHospedagemException() + " " + new EmailHospedeException() + " nao pode ser vazio.");
 		}
 	}
 	
-	public void exceptionGetInfoEmailFormat(String email) throws EmailHospedeException{
-		this.exceptionEmailCheckout(email);
+	public void exceptionGetInfoEmailFormat(String email) throws ChecarHospedagemException  {
+		this.exceptionGetInfoEmail(email);
 		if(!(email.matches("^\\A[a-zA-Z]+@[a-zA-Z]+.[a-zA-Z]+.[a-zA-Z]+\\z$"))){
-			throw new EmailHospedeException("Erro ao checar hospedagem ativa. Email do(a) hospede esta invalido.");
+			throw new ChecarHospedagemException(new ChecarHospedagemException() + " " + new EmailHospedeException() + " esta invalido.");
 		}
 	}
 }

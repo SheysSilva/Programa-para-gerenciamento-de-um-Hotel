@@ -1,25 +1,14 @@
 package Hospedagem;
 
-import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 
 import exceptionsmetodos.ExceptionMetodosHospede;
 import factory.FactoryCartaoFidelidade;
-import sistemaexception.AtualizaDataNascimentoHospedeFormatException;
-import sistemaexception.AtualizaDataNascimentoNullException;
-import sistemaexception.AtualizaEmailHospedeException;
-import sistemaexception.AtualizaMenorDeIdadeException;
-import sistemaexception.AtualizaNomeHospedeException;
-import sistemaexception.DataNascimentoNullException;
-import sistemaexception.EmailHospedeException;
-import sistemaexception.FormatoDataException;
-import sistemaexception.MenorDeIdadeException;
-import sistemaexception.NomeHospedeException;
-import sistemaexception.NomeHospedeInvalidoException;
+import sistemaexception.AtualizaCadastroException;
+import sistemaexception.CadastroHospedeException;
 import sistemaexception.ObjetoNullException;
-import sistemaexception.ValorInvalidoException;
 
 public class Hospede {
 	
@@ -34,7 +23,7 @@ public class Hospede {
 	private HashSet<Estadia> estadias;
 	private ExceptionMetodosHospede exception;
 	
-	public Hospede(String nome, String email, String dataNascimento) throws NomeHospedeInvalidoException, NomeHospedeException, EmailHospedeException, FormatoDataException, DataNascimentoNullException, MenorDeIdadeException, ParseException {
+	public Hospede(String nome, String email, String dataNascimento) throws CadastroHospedeException {
 		this.exception = new ExceptionMetodosHospede();
 		this.exception.exceptionEntrada(nome, email, dataNascimento);
 		this.format = DateTimeFormatter.ofPattern("dd/MM/yyy");
@@ -51,7 +40,7 @@ public class Hospede {
 		return nome;
 	}
 
-	public void setNome(String nome) throws AtualizaNomeHospedeException {
+	public void setNome(String nome) throws AtualizaCadastroException   {
 		this.exception.exceptionAtualizaNomeHospedeInvalido(nome);
 		this.nome = nome;
 	}
@@ -60,7 +49,7 @@ public class Hospede {
 		return email;
 	}
 
-	public void setEmail(String email) throws AtualizaEmailHospedeException {
+	public void setEmail(String email) throws AtualizaCadastroException  {
 		this.exception.exceptionAtualizaEmailFormat(email);
 		this.email = email;
 	}
@@ -90,7 +79,7 @@ public class Hospede {
 		return this.dataNascimento.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 	}
 
-	public void setDataNascimento(String data) throws AtualizaDataNascimentoNullException, AtualizaDataNascimentoHospedeFormatException, AtualizaMenorDeIdadeException{
+	public void setDataNascimento(String data) throws AtualizaCadastroException {
 		this.exception.exceptionAtualizaMenorDeIdade(data);
 		this.dataNascimento = LocalDate.parse(data, format);;
 		
@@ -104,18 +93,25 @@ public class Hospede {
 		return estadias;
 	}
 
-	public void adicionaEstadia(Estadia estadia) throws ValorInvalidoException, ObjetoNullException {
+	public void adicionaEstadia(Estadia estadia) throws ObjetoNullException  {
 		this.exception.exceptionObjetoNull(estadia);
 		this.getEstadias().add(estadia);
 		
 	}
 
 
-	public void removeEstadia(Estadia estadia) throws ValorInvalidoException {
-		
+	public void removeEstadia(Estadia estadia)  {
 		this.getEstadias().remove(estadia);
 	}
-
+	
+	public boolean verificaPontos(int pontos){
+		if(this.getPontos() >= pontos){
+			return true;
+			
+		}else{
+			return false;
+		}
+	}
 	
 	@Override
 	public int hashCode() {
@@ -140,14 +136,14 @@ public class Hospede {
 
 	@Override
 	public String toString(){
-		String retorno = "Nome: " + this.getNome() + 
-				"\nE-mail: " + this.getEmail() + 
-				"\nAno Nascimento: " + this.getAnoNascimento() +
-				"\nEstadias:";
-		for(Estadia estadia: this.getEstadias()){
-			retorno += "\n" + estadia.toString();
+		String retorno = "Email: " + this.getEmail() + 
+				"\nNome: " + this.getNome() + 
+				"\nData de nascimento: " + this.dataNascimento.format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
+				//"\nEstadias:";
+		/**for(Estadia estadia: this.getEstadias()){
+			retorno += "\n" + estadia.toString();	
 		}
-		
+		**/
 		return retorno;		
 	}
 	

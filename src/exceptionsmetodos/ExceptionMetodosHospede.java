@@ -1,13 +1,9 @@
 package exceptionsmetodos;
 	
-import java.text.ParseException;
 import java.util.Calendar;
 
-import sistemaexception.AtualizaDataNascimentoHospedeFormatException;
-import sistemaexception.AtualizaDataNascimentoNullException;
-import sistemaexception.AtualizaEmailHospedeException;
-import sistemaexception.AtualizaMenorDeIdadeException;
-import sistemaexception.AtualizaNomeHospedeException;
+import sistemaexception.AtualizaCadastroException;
+import sistemaexception.CadastroHospedeException;
 import sistemaexception.DataNascimentoNullException;
 import sistemaexception.EmailHospedeException;
 import sistemaexception.FormatoDataException;
@@ -17,7 +13,7 @@ import sistemaexception.NomeHospedeInvalidoException;
 	
 public class ExceptionMetodosHospede extends ExceptionMetodos{
 	
-	public void exceptionEntrada(String nome, String email, String dataNascimento) throws NomeHospedeInvalidoException, NomeHospedeException, EmailHospedeException, FormatoDataException, DataNascimentoNullException, MenorDeIdadeException, ParseException {
+	public void exceptionEntrada(String nome, String email, String dataNascimento) throws CadastroHospedeException {
 		this.exceptionNomeHospedeInvalido(nome);
 		this.exceptionEmailHospede(email);
 		this.exceptionEmailFormat(email);
@@ -27,132 +23,132 @@ public class ExceptionMetodosHospede extends ExceptionMetodos{
 	
 	//Cadastro
 	//Nome
-	public void exceptionNomeHospede(String nome) throws NomeHospedeException{
+	public void exceptionNomeHospede(String nome) throws CadastroHospedeException{
 		if(nome == null || nome.trim().isEmpty()) {
-			throw new NomeHospedeException();
+			throw new CadastroHospedeException(new CadastroHospedeException() + " " + new  NomeHospedeException());
 		}
 	}
 	
-	public void exceptionNomeHospedeInvalido(String nome) throws NomeHospedeInvalidoException, NomeHospedeException{
+	public void exceptionNomeHospedeInvalido(String nome) throws CadastroHospedeException {
 		this.exceptionNomeHospede(nome);
 		String[] str = nome.split(" ");
 		for(int i = 0; i < str.length; i ++){
 			if(!(str[i].matches("^\\A[a-zA-Z]*\\z$"))){
-				throw new NomeHospedeInvalidoException();
+				throw new CadastroHospedeException(new CadastroHospedeException() + " " + new NomeHospedeInvalidoException());
 			}
 		}
 	}
 	
 	//Email
-	public void exceptionEmailHospede(String email) throws EmailHospedeException{
+	public void exceptionEmailHospede(String email) throws CadastroHospedeException {
 		if (email == null || email.trim().isEmpty()) {
-			throw new EmailHospedeException();
+			throw new CadastroHospedeException(new CadastroHospedeException() + " " +  new EmailHospedeException() + " nao pode ser vazio.");
 		}
 	}
 	
-	public void exceptionEmailFormat(String email) throws EmailHospedeException{
+	public void exceptionEmailFormat(String email) throws CadastroHospedeException{
 		if(!(email.matches("^\\A[a-zA-Z]+@[a-zA-Z]+.[a-zA-Z]+.[a-zA-Z]+\\z$"))){
-			throw new EmailHospedeException("Erro no cadastro de Hospede. Email do(a) hospede esta invalido.");
+			throw new CadastroHospedeException(new CadastroHospedeException() + " " + new EmailHospedeException() + " esta invalido.");
 		}
 	}
 	
 	
 	//DataNascimento
-	private void exceptionDataNascimentoHospedeNull(String dataNascimento) throws DataNascimentoNullException{
+	private void exceptionDataNascimentoHospedeNull(String dataNascimento) throws CadastroHospedeException{
 		if (dataNascimento == null || dataNascimento.trim().isEmpty()) {
-			throw new DataNascimentoNullException();
+			throw new CadastroHospedeException(new CadastroHospedeException() + " " + new DataNascimentoNullException());
 		}
 	}
 	
-	private void exceptionDataNascimentoHospedeFormat(String dataNascimento) throws ParseException, FormatoDataException, DataNascimentoNullException{
+	private void exceptionDataNascimentoHospedeFormat(String dataNascimento) throws CadastroHospedeException{
 		this.exceptionDataNascimentoHospedeNull(dataNascimento);
 		if(!(dataNascimento.matches("^\\d{2}/\\d{2}/\\d{4}$"))){
-			throw new FormatoDataException();
+			throw new CadastroHospedeException(new CadastroHospedeException() + " " + new FormatoDataException());
 		}
 		String[] str = dataNascimento.split("/");
 		if(Integer.parseInt(str[0]) <= 0 || Integer.parseInt(str[0])  > 31){
-			throw new FormatoDataException();
+			throw new CadastroHospedeException(new CadastroHospedeException() + " " + new FormatoDataException());
 		}
 		
 		if(Integer.parseInt(str[1]) <= 0 || Integer.parseInt(str[1]) > 12){
-			throw new FormatoDataException();
+			throw new CadastroHospedeException(new CadastroHospedeException() + " " + new FormatoDataException());
 		}
 		if(Integer.parseInt(str[2]) <= 0 || Integer.parseInt(str[1]) > Calendar.getInstance().get(Calendar.YEAR)){
-			throw new FormatoDataException();
+			throw new CadastroHospedeException(new CadastroHospedeException() + " " + new FormatoDataException());
 		}
 	}
 	
-	public void exceptionMenorDeIdade(String dataNascimento) throws FormatoDataException, DataNascimentoNullException, ParseException, MenorDeIdadeException {
+	public void exceptionMenorDeIdade(String dataNascimento) throws CadastroHospedeException {
 		this.exceptionDataNascimentoHospedeFormat(dataNascimento);
 		String[] str = dataNascimento.split("/");
 		if((Calendar.getInstance().get(Calendar.YEAR )- Integer.parseInt(str[2])) < 18){
-			throw new MenorDeIdadeException();
+			throw new CadastroHospedeException(new CadastroHospedeException() + " " + new MenorDeIdadeException());
 		}
 	}
 	
 	//Atualizacao dos Dados
 	//Nome
-	public void exceptionAtualizaNomeHospede(String nome) throws AtualizaNomeHospedeException{
+	public void exceptionAtualizaNomeHospede(String nome) throws AtualizaCadastroException {
 		if (nome == null || nome.trim().isEmpty()) {
-			throw new AtualizaNomeHospedeException();
+			throw new AtualizaCadastroException(new AtualizaCadastroException() + " " + new  NomeHospedeException());
 		}
 	}
 	
-	public void exceptionAtualizaNomeHospedeInvalido(String nome) throws AtualizaNomeHospedeException{
+	public void exceptionAtualizaNomeHospedeInvalido(String nome) throws AtualizaCadastroException {
 		this.exceptionAtualizaNomeHospede(nome);
 		String[] str = nome.split(" ");
 		for(int i = 0; i < str.length; i ++){
 			if(!(str[i].matches("^\\A[a-zA-Z]*\\z$"))){
-				throw new AtualizaNomeHospedeException("Erro na atualizacao do cadastro de Hospede. Nome do(a) hospede esta invalido.");
+				throw new AtualizaCadastroException(new AtualizaCadastroException() + " " + new NomeHospedeInvalidoException());
 			}
 		}
 	}
 	//Email
-	public void exceptionAtualizaEmailHospede(String email) throws AtualizaEmailHospedeException{
+	public void exceptionAtualizaEmailHospede(String email) throws AtualizaCadastroException {
 		if (email == null || email.trim().isEmpty()) {
-			throw new AtualizaEmailHospedeException();
+			throw new AtualizaCadastroException(new AtualizaCadastroException() + " " +  new EmailHospedeException() + " nao pode ser vazio.");
 		}
 	}
 	
-	public void exceptionAtualizaEmailFormat(String email) throws AtualizaEmailHospedeException{
+	public void exceptionAtualizaEmailFormat(String email) throws AtualizaCadastroException {
 		this.exceptionAtualizaEmailHospede(email);
 		if(!(email.matches("^\\A[a-zA-Z]+@[a-zA-Z]+.[a-zA-Z]+.[a-zA-Z]+\\z$"))){
-			throw new AtualizaEmailHospedeException("Erro na atualizacao do cadastro de Hospede. Email do(a) hospede esta invalido.");
+			throw new AtualizaCadastroException(new AtualizaCadastroException() + " " +  new EmailHospedeException() + " esta invalido.");
 		}
 	}
 
 	//Data
-	public void exceptionAtualizaDataNascimentoHospede(String dataNascimento) throws AtualizaDataNascimentoNullException{
+	public void exceptionAtualizaDataNascimentoHospede(String dataNascimento) throws AtualizaCadastroException  {
 		if (dataNascimento == null || dataNascimento.trim().isEmpty()) {
-			throw new AtualizaDataNascimentoNullException();
+			throw new AtualizaCadastroException(new AtualizaCadastroException() + " " + new DataNascimentoNullException());
 		}
 	}
 	
-	public void exceptionAtualizaDataNascimentoHospedeFormat(String dataNascimento) throws AtualizaDataNascimentoNullException, AtualizaDataNascimentoHospedeFormatException{
+	public void exceptionAtualizaDataNascimentoHospedeFormat(String dataNascimento) throws AtualizaCadastroException  {
 		this.exceptionAtualizaDataNascimentoHospede(dataNascimento);
 		if(!(dataNascimento.matches("^\\d{2}/\\d{2}/\\d{4}$"))){
-			throw new AtualizaDataNascimentoHospedeFormatException();
+			throw new AtualizaCadastroException(new AtualizaCadastroException() + " " + new FormatoDataException());
 		}
 		String[] str = dataNascimento.split("/");
 		if(Integer.parseInt(str[0]) <= 0 || Integer.parseInt(str[0])  > 31){
-			throw new AtualizaDataNascimentoHospedeFormatException();
+			throw new AtualizaCadastroException(new AtualizaCadastroException() + " " + new FormatoDataException());
 		}
 		
 		if(Integer.parseInt(str[1]) <= 0 || Integer.parseInt(str[1]) > 12){
-			throw new AtualizaDataNascimentoHospedeFormatException();
+			throw new AtualizaCadastroException(new AtualizaCadastroException() + " " + new FormatoDataException());
 		}
 		if(Integer.parseInt(str[2]) <= 0 || Integer.parseInt(str[1]) > Calendar.getInstance().get(Calendar.YEAR)){
-			throw new AtualizaDataNascimentoHospedeFormatException();
+			throw new AtualizaCadastroException(new AtualizaCadastroException() + " " + new FormatoDataException());
 		}
 		
 		
 	}
 	
-	public void exceptionAtualizaMenorDeIdade(String dataNascimento) throws AtualizaDataNascimentoNullException, AtualizaDataNascimentoHospedeFormatException, AtualizaMenorDeIdadeException {
+	public void exceptionAtualizaMenorDeIdade(String dataNascimento) throws AtualizaCadastroException  {
 		this.exceptionAtualizaDataNascimentoHospedeFormat(dataNascimento);
 		String[] str = dataNascimento.split("/");
 		if((Calendar.getInstance().get(Calendar.YEAR )- Integer.parseInt(str[2])) < 18){
-			throw new AtualizaMenorDeIdadeException();
+			throw new AtualizaCadastroException(new AtualizaCadastroException() + " " +	new MenorDeIdadeException());
 		}
 	}
 	

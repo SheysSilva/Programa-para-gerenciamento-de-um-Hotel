@@ -34,6 +34,14 @@ public class Premium implements CartaoFidelidade{
 		return 0;
 	}
 
+
+	@Override
+	public String convertePontos(int pontos) {
+		double total = (pontos/10) * 0.2;
+		total += pontos * 0.3;
+		return "R$2.f" + total;
+	}
+
 	
 	
 	

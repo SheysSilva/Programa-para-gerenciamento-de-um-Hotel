@@ -10,4 +10,6 @@ public interface CartaoFidelidade {
 	
 	public void pagaDivida(double divida);
 
+	public String convertePontos(int pontos);
+
 }

@@ -39,6 +39,16 @@ public class Vip implements CartaoFidelidade{
 		return 0;
 	}
 
+
+
+	@Override
+	public String convertePontos(int pontos) {
+		double total = (pontos/10) * 0.5;
+		total += pontos * 0.7;
+		return "R$2.f" + total;
+	}
+	
+
 	
 
 	

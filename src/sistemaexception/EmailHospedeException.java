@@ -4,7 +4,7 @@ package sistemaexception;
 public class EmailHospedeException extends EntradaException{
 	
 	public EmailHospedeException(){
-		super("Erro no cadastro de Hospede. Email do(a) hospede nao pode ser vazio.");
+		super("Email do(a) hospede");
 	}
 	
 	public EmailHospedeException(String mensagem){

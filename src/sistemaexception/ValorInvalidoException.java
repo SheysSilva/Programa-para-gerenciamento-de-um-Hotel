@@ -1,13 +1,13 @@
 package sistemaexception;
 
 @SuppressWarnings("serial")
-public class ValorInvalidoException extends EntradaException {
-
-	public ValorInvalidoException() {
-		super("Exception Valor Invalido");
+public class ValorInvalidoException extends Exception {
+	
+	public ValorInvalidoException(){
+		super("Valor invalido Exception.");
 	}
-
-	public ValorInvalidoException(String mensagem) {
+	
+	public ValorInvalidoException(String mensagem){
 		super(mensagem);
 	}
 }

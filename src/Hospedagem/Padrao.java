@@ -32,5 +32,10 @@ public class Padrao implements CartaoFidelidade{
 		return 0;
 	}
 
+	@Override
+	public String convertePontos(int pontos) {
+		return "R$2.f" + (pontos * 0.1);
+	}
+
 	
 }
