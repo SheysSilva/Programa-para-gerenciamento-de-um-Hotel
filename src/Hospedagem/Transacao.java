@@ -55,12 +55,12 @@ public class Transacao {
         this.nomeDoHospede = nomeDoHospede;
     }
 
-    public String getNumeroDoQuarto() {
+    public String getDescricao() {
         return descricao;
     }
 
-    public void setNumeroDoQuarto(String numeroDoQuarto) {
-        this.descricao = numeroDoQuarto;
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 
     public double getTotalPago() {

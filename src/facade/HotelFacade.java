@@ -113,4 +113,15 @@ public class HotelFacade {
 	public String convertePontos(String email, int pontos) throws HospedeInexistenteException, PontosInsuficientesException {
 		return recepcao.convertePontos(email, pontos);
 	}
+	
+	@Override
+	public String toString(){
+		return  "======================================================" 
+				+ "\n" + this.recepcao.toStringCadastro() + "\n"
+				+ "======================================================"
+				+ "\n" + this.restaurante.toString() + "\n"
+				+ "======================================================"
+				+ "\n" + this.recepcao.toStringTransacao();
+	
+	}
 }

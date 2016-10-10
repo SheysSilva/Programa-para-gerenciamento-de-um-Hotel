@@ -287,6 +287,10 @@ public class Recepcao {
 	
 	@Override
 	public String toString(){
+		return this.toStringCadastro() + "\n" + this.toStringTransacao();
+	}
+	
+	public String toStringCadastro(){
 		String retorno = "Cadastro de Hospedes: " + this.hospedes.size() + " hospedes registrados";
 		int i = 0;
 		for(String chave: this.hospedes.keySet()){
@@ -297,4 +301,19 @@ public class Recepcao {
 		return retorno;
 	}
 	
+	public String toStringTransacao(){
+		int soma = 0;
+		String retorno = "Historico de Transacoes: ";
+		for(Transacao trans: this.historico){
+			retorno += "\n==> Nome: " + trans.getNomeDoHospede() + " Gasto: R$" + trans.getTotalPago() + " Detalhes: " + trans.getDescricao();
+			soma += trans.getTotalPago();
+		}
+		
+		retorno += "===== Resumo de transacoes =====" 
+				+ "\nLucro total:R$" + soma 
+				+ "\nTotal de transacoes:" + this.historico.size() 
+				+ "\nLucro medio por transacao: R$" + (soma/this.historico.size());
+		
+		return retorno;
+	}	
 }

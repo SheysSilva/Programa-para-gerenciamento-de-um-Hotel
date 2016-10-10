@@ -136,15 +136,11 @@ public class Hospede {
 
 	@Override
 	public String toString(){
-		String retorno = "Email: " + this.getEmail() + 
+		return  "Email: " + this.getEmail() + 
 				"\nNome: " + this.getNome() + 
 				"\nData de nascimento: " + this.dataNascimento.format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
-				//"\nEstadias:";
-		/**for(Estadia estadia: this.getEstadias()){
-			retorno += "\n" + estadia.toString();	
-		}
-		**/
-		return retorno;		
+		
+			
 	}
 	
 	
