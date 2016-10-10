@@ -25,6 +25,8 @@ public class Main {
 		
 		File hotel_prin = new File("Historico/hotel_principal.txt");
 		hotel_prin.createNewFile();
+		
+		
 	
 		FileWriter escrever = new FileWriter(cad_hosp);
 		BufferedWriter bufferE= new BufferedWriter(escrever);
