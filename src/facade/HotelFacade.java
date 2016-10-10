@@ -4,7 +4,7 @@ package facade;
 import Hospedagem.Hospede;
 import Hospedagem.Quarto;
 import controllers.Recepcao;
-import controllers.Restaurante;
+import controllers.RestauranteController;
 import exceptionsmetodos.ExceptionMetodosHotel;
 import factory.FactoryQuarto;
 import sistemaexception.AtualizaCadastroException;
@@ -26,7 +26,7 @@ import sistemaexception.ValorInvalidoException;
 
 public class HotelFacade {
 	
-	private Restaurante restaurante;
+	private RestauranteController restaurante;
 	private Recepcao recepcao;
 	private FactoryQuarto factoryQuarto;
 	private ExceptionMetodosHotel exceptionHotel;
@@ -34,9 +34,12 @@ public class HotelFacade {
 	
 	public HotelFacade(){
 		this.recepcao = new Recepcao();
-		this.restaurante  = new Restaurante();
+		this.restaurante  = new RestauranteController();
 		this.exceptionHotel =  new ExceptionMetodosHotel();
 		this.factoryQuarto = new FactoryQuarto();
+	}
+	
+	public void iniciaSistema(){
 	}
 	
 	private Quarto criaQuarto(String tipoQuarto, String numQuarto) throws QuartoInexistenteException, ValorInvalidoException, ObjetoNullException {
@@ -112,6 +115,9 @@ public class HotelFacade {
 	
 	public String convertePontos(String email, int pontos) throws HospedeInexistenteException, PontosInsuficientesException {
 		return recepcao.convertePontos(email, pontos);
+	}
+	
+	public void fechaSistema(){
 	}
 	
 	@Override
