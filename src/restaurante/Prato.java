@@ -83,4 +83,9 @@ public class Prato extends ItensDoCardapio{
 	public String toString(){
 		return "(" + this.getNome() + ", " + this.preco + ", " + this.getDescricao() + ")";  
 	}
+
+	@Override
+	public String toStringComponentes() {
+		return null;
+	}
 }

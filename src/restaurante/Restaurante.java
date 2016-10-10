@@ -183,4 +183,28 @@ public class Restaurante {
 		Collections.sort(cardapio, new PrecoComparator());
 		return cardapio;
 	}
+	
+	public String toStringRestaurante(){
+		String impressao = "";
+		int i = 1;
+		
+		impressao += "Menu do Restaurante: " + String.format("%d", cardapio.size()) + " itens no cardapio\n";
+		
+		for (ItensDoCardapio item : cardapio) {
+			impressao += "==> Item " + String.format("%d", i) + ":\n";
+			i += 1;
+			impressao += "Nome: " + item.getNome() + "Preco: " + item.getPrecoString() + 
+					"\nDescricao: " + item.getDescricao();
+			
+			if (item instanceof Refeicao){
+				impressao += "\nPratos: " + item.toStringComponentes();					
+			}
+		}
+		return impressao;
+	}
+	
+	@Override
+	public String toString(){
+		return toStringRestaurante();
+	}
 }

@@ -15,6 +15,8 @@ public abstract class ItensDoCardapio{
 	public abstract String getPrecoString();	
 	
 	public abstract String getDescricao();
+	
+	public abstract String toStringComponentes();
 
 	public String getNome() {
 		return nome;

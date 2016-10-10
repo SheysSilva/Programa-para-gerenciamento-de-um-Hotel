@@ -53,7 +53,7 @@ public class Refeicao extends ItensDoCardapio{
 		return String.format("R$%.2f", this.getPreco());
 	}
 	
-	private String toStringComponentes(){
+	public String toStringComponentes(){
 		String impressao = "";
 		for (int i = 0; i < componentes.size(); i++) {
 			impressao += ", ";

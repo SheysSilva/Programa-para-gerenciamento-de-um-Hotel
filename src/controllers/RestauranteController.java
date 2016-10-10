@@ -32,5 +32,10 @@ public class RestauranteController {
 	public String realizaPedido(String email, String itemMenu) throws Exception{
 		return restaurante.realizaPedido(email, itemMenu);
 	}
+	
+	@Override
+	public String toString(){
+		return restaurante.toString();
+	}
 }
 
