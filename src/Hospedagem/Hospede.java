@@ -36,6 +36,14 @@ public class Hospede {
 		this.estadias =  new HashSet<Estadia>();
 	}
 
+	private void mudaCartao() {
+		if(this.getPontos() > 350 && this.getPontos() <= 1000){
+			this.cartao = new Premium();
+		}else if(this.getPontos() > 1000){
+			this.cartao = new Vip();
+		}
+	}
+
 	public String getNome() {
 		return nome;
 	}
@@ -68,6 +76,7 @@ public class Hospede {
 			adicional = ((int) (pagamento / 100)) * 10;
 		}
 		this.setPontos((int) (this.getPontos() + (pagamento * 0.3) + adicional));
+		this.mudaCartao();
 	}
 	
 	public double getDebito() {

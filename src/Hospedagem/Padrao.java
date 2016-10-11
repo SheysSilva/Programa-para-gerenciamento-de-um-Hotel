@@ -22,19 +22,8 @@ public class Padrao implements CartaoFidelidade{
 	}
 
 	@Override
-	public void pagaDivida(double divida) {
-		
-	}
-
-	@Override
-	public double getDesconto(double cobranca) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
 	public String convertePontos(int pontos) {
-		return "R$2.f" + (pontos * 0.1);
+		return String.format("R$%.2f",  (pontos * 0.1));
 	}
 
 	

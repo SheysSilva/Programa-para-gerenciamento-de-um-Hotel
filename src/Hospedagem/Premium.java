@@ -8,8 +8,7 @@ public class Premium implements CartaoFidelidade{
 	
 		this.porcentagem = 0.9;
 	}
-
-
+	
 	public double getPorcentagem() {
 		return porcentagem;
 	}
@@ -23,23 +22,10 @@ public class Premium implements CartaoFidelidade{
 	}
 
 	@Override
-	public void pagaDivida(double divida) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public double getDesconto(double cobranca) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-
-	@Override
 	public String convertePontos(int pontos) {
 		double total = (pontos/10) * 0.2;
 		total += pontos * 0.3;
-		return "R$2.f" + total;
+		return  String.format("R$%.2f", total);
 	}
 
 	

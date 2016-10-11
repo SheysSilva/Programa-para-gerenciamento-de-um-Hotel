@@ -88,7 +88,7 @@ public class TesteEstadia {
 	
 	@Test 
 	public void testDiasException(){
-		//Mudan�a nos dias
+		//Mudanca nos dias
 		try {
 			this.estadiaSimples.setDias(-1);
 		} catch (ValorInvalidoException e) {
