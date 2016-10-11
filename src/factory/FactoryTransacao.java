@@ -1,6 +1,6 @@
 package factory;
 
-import Hospedagem.Transacao;
+import hospedagem.Transacao;
 
 public class FactoryTransacao {
 

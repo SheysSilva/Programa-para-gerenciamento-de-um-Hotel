@@ -5,14 +5,14 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 
-import Hospedagem.Estadia;
-import Hospedagem.Hospede;
-import Hospedagem.Quarto;
-import Hospedagem.Transacao;
 import exceptionsmetodos.ExceptionMetodosRecepcao;
 import factory.FactoryEstadia;
 import factory.FactoryHospede;
 import factory.FactoryTransacao;
+import hospedagem.Estadia;
+import hospedagem.Hospede;
+import hospedagem.Quarto;
+import hospedagem.Transacao;
 import sistemaexception.AtualizaCadastroException;
 import sistemaexception.CadastroHospedeException;
 import sistemaexception.ChekinException;

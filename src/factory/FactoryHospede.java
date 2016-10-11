@@ -1,6 +1,6 @@
 package factory;
 
-import Hospedagem.Hospede;
+import hospedagem.Hospede;
 import sistemaexception.CadastroHospedeException;
 
 public class FactoryHospede {

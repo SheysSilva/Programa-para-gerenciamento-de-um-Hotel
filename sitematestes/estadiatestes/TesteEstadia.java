@@ -4,10 +4,10 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import Hospedagem.Estadia;
-import Hospedagem.Quarto;
 import factory.FactoryEstadia;
 import factory.FactoryQuarto;
+import hospedagem.Estadia;
+import hospedagem.Quarto;
 import sistemaexception.ValorInvalidoException;
 
 public class TesteEstadia {

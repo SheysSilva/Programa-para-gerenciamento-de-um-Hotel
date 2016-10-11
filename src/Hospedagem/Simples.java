@@ -1,4 +1,4 @@
-package Hospedagem;
+package hospedagem;
 
 import sistemaexception.ObjetoNullException;
 import sistemaexception.ValorInvalidoException;

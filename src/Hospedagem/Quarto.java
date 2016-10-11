@@ -1,4 +1,4 @@
-package Hospedagem;
+package hospedagem;
 
 import exceptionsmetodos.ExceptionMetodosQuarto;
 import sistemaexception.ObjetoNullException;

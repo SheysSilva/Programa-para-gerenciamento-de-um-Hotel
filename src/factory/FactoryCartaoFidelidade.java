@@ -1,7 +1,7 @@
 package factory;
 
-import Hospedagem.CartaoFidelidade;
-import Hospedagem.Padrao;
+import hospedagem.CartaoFidelidade;
+import hospedagem.Padrao;
 
 public class FactoryCartaoFidelidade {
 

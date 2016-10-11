@@ -1,7 +1,7 @@
 package factory;
 
-import Hospedagem.Estadia;
-import Hospedagem.Quarto;
+import hospedagem.Estadia;
+import hospedagem.Quarto;
 import sistemaexception.ObjetoNullException;
 import sistemaexception.QuartoInexistenteException;
 import sistemaexception.ValorInvalidoException;

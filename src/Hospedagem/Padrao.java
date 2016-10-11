@@ -1,4 +1,4 @@
-package Hospedagem;
+package hospedagem;
 
 public class Padrao implements CartaoFidelidade{
 	

@@ -2,8 +2,8 @@ package cartaofidelidadetestes;
 
 import org.junit.Before;
 
-import Hospedagem.CartaoFidelidade;
 import factory.FactoryCartaoFidelidade;
+import hospedagem.CartaoFidelidade;
 
 
 public class TesteCartaoFidelidade {

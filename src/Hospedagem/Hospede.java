@@ -1,4 +1,4 @@
-package Hospedagem;
+package hospedagem;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;

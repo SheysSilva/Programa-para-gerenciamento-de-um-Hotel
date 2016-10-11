@@ -1,4 +1,4 @@
-package Hospedagem;
+package hospedagem;
 
 public interface Quartos {
 	public String getNumeroDoQuarto();

@@ -1,12 +1,17 @@
 package facade;
 
 
-import Hospedagem.Hospede;
-import Hospedagem.Quarto;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
 import controllers.Recepcao;
 import controllers.RestauranteController;
 import exceptionsmetodos.ExceptionMetodosHotel;
 import factory.FactoryQuarto;
+import hospedagem.Hospede;
+import hospedagem.Quarto;
 import sistemaexception.AtualizaCadastroException;
 import sistemaexception.CadastroHospedeException;
 import sistemaexception.ChecarHospedagemException;
@@ -128,6 +133,57 @@ public class HotelFacade {
 	
 	}
 	
-	public void fechaSistema(){
+	public void fechaSistema() throws IOException{
+		//Diretorio
+		File diretorio = new File("historico");
+		diretorio.mkdir();
+		
+		//Criando arquivo txt
+		File hospede = new File("historico/cad_hospedes.txt");
+		hospede.createNewFile();
+		
+		File restaurante = new File("historico/cad_restaurante.txt");
+		restaurante.createNewFile();
+		
+		File transacao = new File("historico/cad_transacoes.txt");
+		transacao.createNewFile();
+		
+		File principal = new File("historico/hotel_principal.txt");
+		principal.createNewFile();
+		
+		//File
+		FileWriter escreve_hospede = new FileWriter(hospede);
+		
+		FileWriter escreve_restaurante = new FileWriter(restaurante);
+		
+		FileWriter escreve_transacao = new FileWriter(transacao);
+		
+		FileWriter escreve_principal = new FileWriter(principal);
+		
+		//Buffer
+		BufferedWriter buffer_hospede =  new BufferedWriter(escreve_hospede);
+		buffer_hospede.write(this.recepcao.toStringCadastro());
+		
+		BufferedWriter buffer_restaurante =  new BufferedWriter(escreve_restaurante);
+		buffer_restaurante.write(this.restaurante.toString());
+		
+		BufferedWriter buffer_transacao =  new BufferedWriter(escreve_transacao);
+		buffer_transacao.write(this.recepcao.toStringTransacao());
+		
+		BufferedWriter buffer_principal =  new BufferedWriter(escreve_principal);
+		buffer_principal.write(this.recepcao.toString());
+		
+		//Fechando
+		buffer_hospede.close();
+		buffer_restaurante.close();
+		buffer_transacao.close();
+		buffer_principal.close();
+		
+		escreve_hospede.close();
+		escreve_restaurante.close();
+		escreve_transacao.close();
+		escreve_principal.close();
+		
+		
 	}
 }

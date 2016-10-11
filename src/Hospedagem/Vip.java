@@ -1,4 +1,4 @@
-package Hospedagem;
+package hospedagem;
 
 public class Vip implements CartaoFidelidade{
 	
