@@ -5,6 +5,7 @@ import java.text.ParseException;
 import org.junit.Test;
 
 import Hospedagem.Hospede;
+import sistemaexception.CadastroHospedeException;
 import sistemaexception.DataNascimentoNullException;
 import sistemaexception.EmailHospedeException;
 import sistemaexception.FormatoDataException;
@@ -17,7 +18,12 @@ public class TestesHospede {
 
 	@Test
 	public void test() throws NomeHospedeInvalidoException, NomeHospedeException, EmailHospedeException, FormatoDataException, DataNascimentoNullException, MenorDeIdadeException, ParseException {
-		Hospede hospede = new Hospede("Sven Gudmr Svenson", "sven@sverige.se", "10/02/1996");
+		try {
+			Hospede hospede = new Hospede("Sven Gudmr Svenson", "sven@sverige.se", "10/02/1996");
+		} catch (CadastroHospedeException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

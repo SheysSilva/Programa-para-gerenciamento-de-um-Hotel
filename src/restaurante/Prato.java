@@ -1,8 +1,5 @@
 package restaurante;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import sistemaexception.CadastroDePratoVazioException;
 
 public class Prato extends ItensDoCardapio{

@@ -4,10 +4,10 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import controllers.Restaurante;
+import controllers.RestauranteController;
 
 public class RefeicaoTest {
-	Restaurante restaurante = new Restaurante();
+	RestauranteController restaurante = new RestauranteController();
 	
 	@Before
 	public void setUp() throws Exception {

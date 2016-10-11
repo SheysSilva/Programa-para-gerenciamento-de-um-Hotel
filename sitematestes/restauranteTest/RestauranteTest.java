@@ -1,15 +1,16 @@
 package restauranteTest;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import org.junit.Assert;
 import org.junit.Test;
 
-import controllers.Restaurante;
+import controllers.RestauranteController;
 
 public class RestauranteTest {
 	
-	Restaurante restaurante = new Restaurante();
+	RestauranteController restaurante = new RestauranteController();
 
 	@Test
 	public void testCadastraPrato() throws Exception {

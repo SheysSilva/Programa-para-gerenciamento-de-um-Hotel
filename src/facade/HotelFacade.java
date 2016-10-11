@@ -23,7 +23,6 @@ import sistemaexception.TransacaoException;
 import sistemaexception.ValorInvalidoException;
 
 
-
 public class HotelFacade {
 	
 	private RestauranteController restaurante;
@@ -117,8 +116,6 @@ public class HotelFacade {
 		return recepcao.convertePontos(email, pontos);
 	}
 	
-	public void fechaSistema(){
-	}
 	
 	@Override
 	public String toString(){
@@ -129,5 +126,8 @@ public class HotelFacade {
 				+ "======================================================"
 				+ "\n" + this.recepcao.toStringTransacao();
 	
+	}
+	
+	public void fechaSistema(){
 	}
 }
