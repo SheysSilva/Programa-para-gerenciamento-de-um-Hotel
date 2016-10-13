@@ -15,6 +15,7 @@ import hospedagem.Quarto;
 import hospedagem.Transacao;
 import sistemaexception.AtualizaCadastroException;
 import sistemaexception.CadastroHospedeException;
+import sistemaexception.CheckoutException;
 import sistemaexception.ChekinException;
 import sistemaexception.GetInfoHospedagemException;
 import sistemaexception.GetInfoHospede;
@@ -126,23 +127,17 @@ public class Recepcao {
 		}
 	}
 
-	public String realizacheckout(String email, String numquarto) throws HospedeInexistenteException {
+	public String realizacheckout(String email, String numquarto) throws HospedeInexistenteException, CheckoutException {
 		double totalPago = 0;
 		
 		if(this.hospedes.containsKey(email)) {
-			this.buscaHospede(email).getEstadias();;
-			Iterator<Estadia> iterator =this.buscaHospede(email).getEstadias().iterator();
-			while(iterator.hasNext()) {
-				Estadia estadia = iterator.next();
-				if(estadia.getQuarto().getNumeroDoQuarto().equals(numquarto)){
-					totalPago += estadia.getValorTotal();
-					Transacao checkout = this.factoryTransacao.criaCheckout(buscaHospede(email).getNome(), estadia.getQuarto().getNumeroDoQuarto(), estadia.getValorTotal());
-					this.historico.add(checkout);
-					this.desocupado.add(estadia.getQuarto());
-					this.ocupado.remove(estadia.getQuarto());
-					iterator.remove();	
-					}
-				}
+			totalPago = this.buscaHospede(email).buscaEstadia(numquarto).getValorTotal();
+			Transacao checkout = this.factoryTransacao.criaCheckout(buscaHospede(email).getNome(), this.buscaHospede(email).buscaEstadia(numquarto).getQuarto().getNumeroDoQuarto(), this.buscaHospede(email).buscaEstadia(numquarto).getValorTotal());
+			this.historico.add(checkout);
+			this.desocupado.add(this.buscaHospede(email).buscaEstadia(numquarto).getQuarto());
+			this.ocupado.remove(this.buscaHospede(email).buscaEstadia(numquarto).getQuarto());
+			this.hospedes.get(email).removeEstadia(this.buscaHospede(email).buscaEstadia(numquarto));
+			
 		}else{
 			throw new HospedeInexistenteException();
 		}

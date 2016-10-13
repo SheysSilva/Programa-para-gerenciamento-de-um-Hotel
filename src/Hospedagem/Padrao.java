@@ -8,17 +8,24 @@ public class Padrao implements CartaoFidelidade{
 		this.porcentagem = 0;
 	}
 
+	@Override
 	public double getPorcentagem() {
 		return porcentagem;
 	}
 
+	@Override
 	public void setPorcentagem(double desconto) {
 		this.porcentagem = desconto;
 	}
-	
-	
+
+	@Override
 	public double aplicaDesconto(double cobranca) {
 		return cobranca + cobranca * this.getPorcentagem();
+	}
+	
+	@Override
+	public int pontos(double cobranca){
+		return (int) (cobranca * 0.9);
 	}
 
 	@Override

@@ -8,6 +8,7 @@ import exceptionsmetodos.ExceptionMetodosHospede;
 import factory.FactoryCartaoFidelidade;
 import sistemaexception.AtualizaCadastroException;
 import sistemaexception.CadastroHospedeException;
+import sistemaexception.CheckoutException;
 import sistemaexception.ObjetoNullException;
 
 public class Hospede {
@@ -71,18 +72,9 @@ public class Hospede {
 	}
 	
 	public void adicionaPontos(double pagamento){
-		int adicional = 0;
-		if(pagamento > 100){
-			adicional = ((int) (pagamento / 100)) * 10;
-		}
-		this.setPontos((int) (this.getPontos() + (pagamento * 0.3) + adicional));
+		this.setPontos(this.getPontos() + this.cartao.pontos(pagamento));
 		this.mudaCartao();
 	}
-	
-	public double getDebito() {
-		return 0.0;
-	}
-
 
 	public String getAnoNascimento() {
 		return this.dataNascimento.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
@@ -107,7 +99,17 @@ public class Hospede {
 		this.getEstadias().add(estadia);
 		
 	}
-
+	
+	public Estadia buscaEstadia(String numQuarto) throws CheckoutException{
+		for(Estadia estadia: this.getEstadias()){
+			if(estadia.getQuarto().getNumeroDoQuarto().equalsIgnoreCase(numQuarto)){
+				return estadia;
+			}
+		}
+		throw new CheckoutException(new CheckoutException() + " Estadia inexistente.");
+		
+		
+	}
 
 	public void removeEstadia(Estadia estadia)  {
 		this.getEstadias().remove(estadia);
