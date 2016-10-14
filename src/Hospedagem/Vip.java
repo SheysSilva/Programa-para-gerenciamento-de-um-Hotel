@@ -39,6 +39,11 @@ public class Vip implements CartaoFidelidade{
 		return String.format("R$%.2f", total);
 	}
 
+	@Override
+	public String getTipo() {
+		return "VIP";
+	}
+
 	
 	
 

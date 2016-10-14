@@ -27,7 +27,11 @@ import sistemaexception.RemocaoHospedeException;
 import sistemaexception.TransacaoException;
 import sistemaexception.ValorInvalidoException;
 
-
+/**
+ * 
+ * @author Sheilla, Evelinne, Gustavo
+ *
+ */
 public class HotelFacade {
 	
 	private RestauranteController restaurante;
@@ -49,75 +53,197 @@ public class HotelFacade {
 	private Quarto criaQuarto(String tipoQuarto, String numQuarto) throws QuartoInexistenteException, ValorInvalidoException, ObjetoNullException {
 		return this.factoryQuarto.criaQuarto(tipoQuarto, numQuarto);
 	}
-	
+	/**
+	 * 
+	 * @param nome
+	 * @param email
+	 * @param anoNascimento
+	 * @return
+	 * @throws CadastroHospedeException
+	 */
 	public String cadastraHospede(String nome, String email, String anoNascimento) throws CadastroHospedeException  {
 		return this.recepcao.cadastraHospede(nome, email, anoNascimento);
 	}
 	
+	/**
+	 * 
+	 * @param email
+	 * @throws RemocaoHospedeException
+	 * @throws HospedeInexistenteException
+	 */
 	public void removeHospede(String email) throws RemocaoHospedeException, HospedeInexistenteException{
 		this.recepcao.removerHospede(email);
 	}
 	
+	/**
+	 * 
+	 * @param email
+	 * @return
+	 * @throws HospedeInexistenteException
+	 */
 	public Hospede buscaHospede(String email) throws HospedeInexistenteException   {
 		return this.recepcao.buscaHospede(email);
 	}
-		
+	
+	/**
+	 * 
+	 * @param email
+	 * @param Hospedagem
+	 * @throws ChecarHospedagemException
+	 * @throws CheckoutException
+	 * @throws HospedeInexistenteException
+	 * @throws GetInfoHospedagemException
+	 */
 	public void getInfoHospedagem(String email, String Hospedagem) throws ChecarHospedagemException, CheckoutException, HospedeInexistenteException, GetInfoHospedagemException  {
 		this.exceptionHotel.exceptionGetInfoHospedagens(email);
 		this.recepcao.getInfoHospedagem(email, Hospedagem);
 	}
+	
+	/**
+	 * 
+	 * @param email
+	 * @param atributo
+	 * @return
+	 * @throws GetInfoHospede
+	 * @throws HospedeInexistenteException
+	 */
 	public String getInfoHospede(String email, String atributo) throws GetInfoHospede, HospedeInexistenteException {
 		return this.recepcao.getInfoHospede(email, atributo);
 	}
 	
+	/**
+	 * 
+	 * @param email
+	 * @param quantDias
+	 * @param numQuarto
+	 * @param tipo
+	 * @throws ChekinException
+	 * @throws QuartoInexistenteException
+	 * @throws ObjetoNullException
+	 * @throws HospedeInexistenteException
+	 * @throws ValorInvalidoException
+	 */
 	public void realizaCheckin(String email, int quantDias, String numQuarto, String tipo) throws ChekinException, QuartoInexistenteException, ObjetoNullException, HospedeInexistenteException, ValorInvalidoException {
 		this.exceptionHotel.exceptionChekin(email, quantDias, numQuarto);
 		this.recepcao.realizaCheckin(email, quantDias,this.criaQuarto(tipo, numQuarto));
 	}
 	
+	/**
+	 * 
+	 * @param email
+	 * @param numQuarto
+	 * @return
+	 * @throws CheckoutException
+	 * @throws HospedeInexistenteException
+	 */
 	public String realizarCheckout(String email, String numQuarto) throws CheckoutException, HospedeInexistenteException  {
 		this.exceptionHotel.exceptionCheckout(email, numQuarto);
 		return this.recepcao.realizacheckout(email, numQuarto);
     }
-
+	
+	/**
+	 * 
+	 * @param email
+	 * @param atributo
+	 * @param valor
+	 * @return
+	 * @throws AtualizaCadastroException
+	 * @throws HospedeInexistenteException
+	 */
 	public String atualizaCadastro(String email, String atributo, String valor) throws AtualizaCadastroException, HospedeInexistenteException {
 		return this.recepcao.atualizaCadastro(email, atributo, valor);
 	}
 	
+	/**
+	 * 
+	 * @param tipo
+	 * @return
+	 * @throws TransacaoException
+	 */
 	public String consultaTransacoes(String tipo) throws TransacaoException {
 		return this.recepcao.consultaTransacoes(tipo);
 	}
 	
+	/**
+	 * 
+	 * @param tipo
+	 * @param indice
+	 * @return
+	 * @throws TransacaoException
+	 */
 	public String consultaTransacoes(String tipo, int indice) throws TransacaoException  {
 		this.exceptionHotel.exceptionIndiceInvalido(indice);
 		return this.consultaTransacoes(tipo, indice);
 	}
 	
+	/**
+	 * 
+	 * @param nome
+	 * @param preco
+	 * @param especificacao
+	 * @throws Exception
+	 */
 	public void cadastraPrato(String nome, double preco, String especificacao) throws Exception  {
 		restaurante.cadastraPrato(nome, preco, especificacao);
 	}
 	
+	/**
+	 * 
+	 * @param nome
+	 * @param atributo
+	 * @return
+	 * @throws Exception
+	 */
 	public String consultaRestaurante(String nome, String atributo) throws Exception{
 		return restaurante.consultaRestaurante(nome, atributo);
 	}
 	
+	/**
+	 * 
+	 * @param nome
+	 * @param descricao
+	 * @param componentes
+	 * @throws Exception
+	 */
 	public void cadastraRefeicao(String nome, String descricao, String componentes) throws Exception{
 		restaurante.cadastraRefeicao(nome, descricao, componentes);
 	}
-	
+	/**
+	 * 
+	 * @param tipoOrdenacao
+	 * @throws Exception
+	 */
 	public void ordenaMenu(String tipoOrdenacao) throws Exception{
 		restaurante.ordenaMenu(tipoOrdenacao);
 	}
-	
+	/**
+	 * 
+	 * @return
+	 */
 	public String consultaMenuRestaurante(){
 		return restaurante.consultaMenuRestaurante();
 	}
-	
+	/**
+	 * 
+	 * @param email
+	 * @param itemMenu
+	 * @return
+	 * @throws Exception
+	 */
 	public String realizaPedido(String email, String itemMenu) throws Exception{
 		return restaurante.realizaPedido(email, itemMenu);
 	}
 	
-	public String convertePontos(String email, int pontos) throws HospedeInexistenteException, PontosInsuficientesException {
+	/**
+	 * 
+	 * @param email
+	 * @param pontos
+	 * @return
+	 * @throws HospedeInexistenteException
+	 * @throws PontosInsuficientesException
+	 * @throws ValorInvalidoException
+	 */
+	public String convertePontos(String email, int pontos) throws HospedeInexistenteException, PontosInsuficientesException, ValorInvalidoException {
 		return recepcao.convertePontos(email, pontos);
 	}
 	
@@ -133,6 +259,10 @@ public class HotelFacade {
 	
 	}
 	
+	/**
+	 * 
+	 * @throws IOException
+	 */
 	public void fechaSistema() throws IOException{
 		//Diretorio
 		File diretorio = new File("historico");

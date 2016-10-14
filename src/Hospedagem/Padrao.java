@@ -33,5 +33,10 @@ public class Padrao implements CartaoFidelidade{
 		return String.format("R$%.2f",  (pontos * 0.1));
 	}
 
+	@Override
+	public String getTipo() {
+		return "PADRAO";
+	}
+
 	
 }

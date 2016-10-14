@@ -114,7 +114,7 @@ public class ExceptionMetodosHospede extends ExceptionMetodos{
 	//Data
 	public void exceptionAtualizaDataNascimentoHospede(String dataNascimento) throws AtualizaCadastroException  {
 		if (dataNascimento == null || dataNascimento.trim().isEmpty()) {
-			throw new AtualizaCadastroException("Email do(a) hospede. Data de Nascimento do(a) hospede nao pode ser vazio.");
+			throw new AtualizaCadastroException("Erro na atualizacao do cadastro de Hospede. Data de Nascimento do(a) hospede nao pode ser vazio.");
 		}
 	}
 	

@@ -8,9 +8,13 @@ import exceptionsmetodos.ExceptionMetodosHospede;
 import factory.FactoryCartaoFidelidade;
 import sistemaexception.AtualizaCadastroException;
 import sistemaexception.CadastroHospedeException;
-import sistemaexception.CheckoutException;
 import sistemaexception.ObjetoNullException;
-
+import sistemaexception.ValorInvalidoException;
+/**
+ * 
+ * @author Sheilla, Evelinne, Gustavo
+ *
+ */
 public class Hospede {
 	
 	private DateTimeFormatter format;
@@ -45,77 +49,152 @@ public class Hospede {
 		}
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public String getNome() {
 		return nome;
 	}
 
+	/**
+	 * 
+	 * @param nome
+	 * @throws AtualizaCadastroException
+	 */
 	public void setNome(String nome) throws AtualizaCadastroException   {
 		this.exception.exceptionAtualizaNomeHospedeInvalido(nome);
 		this.nome = nome;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public String getEmail() {
 		return email;
 	}
-
+	/**
+	 * 
+	 * @param email
+	 * @throws AtualizaCadastroException
+	 */
 	public void setEmail(String email) throws AtualizaCadastroException  {
 		this.exception.exceptionAtualizaEmailFormat(email);
 		this.email = email;
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public int getPontos() {
 		return pontos;
 	}
-
-	public void setPontos(int pontos) {
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public String getTipoCartao(){
+		return this.getCartao().getTipo();
+	}
+	
+	/**
+	 * 
+	 * @param pontos
+	 * @throws ValorInvalidoException
+	 */
+	public void setPontos(int pontos) throws ValorInvalidoException {
+		this.exception.exceptionValorInt(pontos);
 		this.pontos = pontos;
 	}
 	
-	public void adicionaPontos(double pagamento){
+	/**
+	 * 
+	 * @param pagamento
+	 * @throws ValorInvalidoException
+	 */
+	public void adicionaPontos(double pagamento) throws ValorInvalidoException{
+		this.exception.exceptionValorDouble(pagamento);
 		this.setPontos(this.getPontos() + this.cartao.pontos(pagamento));
 		this.mudaCartao();
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public String getAnoNascimento() {
 		return this.dataNascimento.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 	}
 
+	/**
+	 * 
+	 * @param data
+	 * @throws AtualizaCadastroException
+	 */
 	public void setDataNascimento(String data) throws AtualizaCadastroException {
 		this.exception.exceptionAtualizaMenorDeIdade(data);
 		this.dataNascimento = LocalDate.parse(data, format);;
 		
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public CartaoFidelidade getCartao() {
 		return cartao;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public HashSet<Estadia> getEstadias() {
 		return estadias;
 	}
 
+	/**
+	 * 
+	 * @param estadia
+	 * @throws ObjetoNullException
+	 */
 	public void adicionaEstadia(Estadia estadia) throws ObjetoNullException  {
 		this.exception.exceptionObjetoNull(estadia);
 		this.getEstadias().add(estadia);
 		
 	}
 	
-	public Estadia buscaEstadia(String numQuarto) throws CheckoutException{
+	/**
+	 * 
+	 * @param numQuarto
+	 * @return
+	 */
+	public Estadia buscaEstadia(String numQuarto)  {
 		for(Estadia estadia: this.getEstadias()){
 			if(estadia.getQuarto().getNumeroDoQuarto().equalsIgnoreCase(numQuarto)){
 				return estadia;
 			}
 		}
-		throw new CheckoutException(new CheckoutException() + " Estadia inexistente.");
-		
-		
+		return null;
 	}
 
+	/**
+	 * 
+	 * @param estadia
+	 */
 	public void removeEstadia(Estadia estadia)  {
 		this.getEstadias().remove(estadia);
 	}
 	
-	public boolean verificaPontos(int pontos){
+	/**
+	 * 
+	 * @param pontos
+	 * @return
+	 */
+	public boolean verificaPontos(int pontos) {
 		if(this.getPontos() >= pontos){
 			return true;
 			

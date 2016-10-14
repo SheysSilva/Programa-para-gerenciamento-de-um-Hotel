@@ -2,7 +2,11 @@ package hospedagem;
 
 import sistemaexception.ObjetoNullException;
 import sistemaexception.ValorInvalidoException;
-
+/**
+ * 
+ * @author Sheilla, Evelinne, Gustavo
+ *
+ */
 public class Simples extends Quarto{
 
 	private static final double PRECO = 100.0;

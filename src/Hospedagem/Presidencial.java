@@ -2,6 +2,11 @@ package hospedagem;
 
 import sistemaexception.ObjetoNullException;
 import sistemaexception.ValorInvalidoException;
+/**
+ * 
+ * @author Sheilla, Evelinne, Gustavo
+ *
+ */
 
 public class Presidencial extends Quarto{
 	

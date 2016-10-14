@@ -3,7 +3,6 @@ package controllers;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 
 import exceptionsmetodos.ExceptionMetodosRecepcao;
 import factory.FactoryEstadia;
@@ -27,7 +26,11 @@ import sistemaexception.RemocaoHospedeException;
 import sistemaexception.TransacaoException;
 import sistemaexception.ValorInvalidoException;
 
-
+/**
+ * 
+ * @author Sheilla, Evelinne, Gustavo
+ *
+ */
 public class Recepcao {
 	
 	private FactoryHospede factoryHospede;
@@ -52,11 +55,25 @@ public class Recepcao {
 
 	}
 	
+	/**
+	 * 
+	 * @param nome
+	 * @param email
+	 * @param anoNascimento
+	 * @return
+	 * @throws CadastroHospedeException
+	 */
 	public String cadastraHospede(String nome, String email, String anoNascimento) throws CadastroHospedeException  {
 		this.hospedes.put(email, this.factoryHospede.criarHospede(nome, email, anoNascimento));
 		return email;
 	}
 	
+	/**
+	 * 
+	 * @param email
+	 * @throws HospedeInexistenteException
+	 * @throws RemocaoHospedeException
+	 */
 	public void removerHospede(String email) throws HospedeInexistenteException, RemocaoHospedeException {
 		this.exceptionRecepcao.exceptionRemoverHospede(email);
 		if(this.hospedes.containsKey(email)){
@@ -65,7 +82,13 @@ public class Recepcao {
 			throw new HospedeInexistenteException();
 		}
 	}
-
+	
+	/**
+	 * 
+	 * @param email
+	 * @return
+	 * @throws HospedeInexistenteException
+	 */
 	public Hospede buscaHospede(String email) throws HospedeInexistenteException  {
 		if(this.hospedes.containsKey(email)){
 			return this.hospedes.get(email);
@@ -73,6 +96,16 @@ public class Recepcao {
 			throw new HospedeInexistenteException("Erro na consulta de hospede. Hospede de email " + email + " nao foi cadastrado(a).");
 		}
 	}
+	
+	/**
+	 * 
+	 * @param email
+	 * @param atributo
+	 * @param valor
+	 * @return
+	 * @throws AtualizaCadastroException
+	 * @throws HospedeInexistenteException
+	 */
 	public String atualizaCadastro(String email, String atributo, String valor) throws AtualizaCadastroException, HospedeInexistenteException  {
 		String[] str = atributo.toUpperCase().split(" ");
 		switch(str[0]){
@@ -86,6 +119,7 @@ public class Recepcao {
 				throw new AtualizaCadastroException();
 		}
 	}
+	
 	private String atualizaCadastroNome(String email, String nome) throws AtualizaCadastroException, HospedeInexistenteException {
 		this.buscaHospede(email).setNome(nome);
 		return this.buscaHospede(email).getNome();
@@ -104,6 +138,17 @@ public class Recepcao {
 		return this.buscaHospede(email).getAnoNascimento();
 	}
 	
+	/**
+	 * 
+	 * @param email
+	 * @param quantDias
+	 * @param quarto
+	 * @throws ObjetoNullException
+	 * @throws HospedeInexistenteException
+	 * @throws ChekinException
+	 * @throws QuartoInexistenteException
+	 * @throws ValorInvalidoException
+	 */
 	public void realizaCheckin(String email, int quantDias, Quarto quarto) throws ObjetoNullException, HospedeInexistenteException, ChekinException, QuartoInexistenteException, ValorInvalidoException  {
 		this.insereQuartoLista(quarto);
 
@@ -127,16 +172,27 @@ public class Recepcao {
 		}
 	}
 
+	/**
+	 * 
+	 * @param email
+	 * @param numquarto
+	 * @return
+	 * @throws HospedeInexistenteException
+	 * @throws CheckoutException
+	 */
 	public String realizacheckout(String email, String numquarto) throws HospedeInexistenteException, CheckoutException {
 		double totalPago = 0;
-		
 		if(this.hospedes.containsKey(email)) {
-			totalPago = this.buscaHospede(email).buscaEstadia(numquarto).getValorTotal();
-			Transacao checkout = this.factoryTransacao.criaCheckout(buscaHospede(email).getNome(), this.buscaHospede(email).buscaEstadia(numquarto).getQuarto().getNumeroDoQuarto(), this.buscaHospede(email).buscaEstadia(numquarto).getValorTotal());
-			this.historico.add(checkout);
-			this.desocupado.add(this.buscaHospede(email).buscaEstadia(numquarto).getQuarto());
-			this.ocupado.remove(this.buscaHospede(email).buscaEstadia(numquarto).getQuarto());
-			this.hospedes.get(email).removeEstadia(this.buscaHospede(email).buscaEstadia(numquarto));
+			if(this.buscaHospede(email).buscaEstadia(numquarto) != null){
+				totalPago = this.buscaHospede(email).buscaEstadia(numquarto).getValorTotal();
+				Transacao checkout = this.factoryTransacao.criaCheckout(buscaHospede(email).getNome(), this.buscaHospede(email).buscaEstadia(numquarto).getQuarto().getNumeroDoQuarto(), this.buscaHospede(email).buscaEstadia(numquarto).getValorTotal());
+				this.historico.add(checkout);
+				this.desocupado.add(this.buscaHospede(email).buscaEstadia(numquarto).getQuarto());
+				this.ocupado.remove(this.buscaHospede(email).buscaEstadia(numquarto).getQuarto());
+				this.hospedes.get(email).removeEstadia(this.buscaHospede(email).buscaEstadia(numquarto));
+			}else{
+				throw new CheckoutException("Erro ao realizar checkout. Estadia inexistente.");
+			}
 			
 		}else{
 			throw new HospedeInexistenteException();
@@ -144,6 +200,12 @@ public class Recepcao {
 		return String.format("R$%.2f", totalPago);
 	}
 	
+	/**
+	 * 
+	 * @param tipo
+	 * @return
+	 * @throws TransacaoException
+	 */
 	public String consultaTransacoes(String tipo) throws TransacaoException  {
 		switch(tipo.trim().toUpperCase()){
 			case "TOTAL":
@@ -179,6 +241,13 @@ public class Recepcao {
 		return nomes;
 	}
 	
+	/**
+	 * 
+	 * @param tipo
+	 * @param indice
+	 * @return
+	 * @throws TransacaoException
+	 */
 	public String consultaTransacoes(String tipo, int indice) throws TransacaoException {
 		switch(tipo.trim().toUpperCase()){
 		case "TOTAL":
@@ -227,6 +296,14 @@ public class Recepcao {
 		return String.valueOf(buscaHospede(email).getEstadias().size());
 	}
 	
+	/**
+	 * 
+	 * @param email
+	 * @param atributo
+	 * @return
+	 * @throws HospedeInexistenteException
+	 * @throws GetInfoHospedagemException
+	 */
 	public String getInfoHospedagem(String email, String atributo) throws HospedeInexistenteException, GetInfoHospedagemException {	
 		String[] str = atributo.toUpperCase().split(" ");
 		switch(str[0]){
@@ -242,6 +319,14 @@ public class Recepcao {
 		
 	}
 	
+	/**
+	 * 
+	 * @param email
+	 * @param atributo
+	 * @return
+	 * @throws GetInfoHospede
+	 * @throws HospedeInexistenteException
+	 */
 	public String getInfoHospede(String email, String atributo) throws GetInfoHospede, HospedeInexistenteException   {
 		String[] str = atributo.toUpperCase().split(" ");
 		switch(str[0]){
@@ -256,7 +341,16 @@ public class Recepcao {
 		}
 	}
 	
-	public String convertePontos(String email, int pontos) throws HospedeInexistenteException, PontosInsuficientesException  {
+	/**
+	 * 
+	 * @param email
+	 * @param pontos
+	 * @return
+	 * @throws HospedeInexistenteException
+	 * @throws PontosInsuficientesException
+	 * @throws ValorInvalidoException
+	 */
+	public String convertePontos(String email, int pontos) throws HospedeInexistenteException, PontosInsuficientesException, ValorInvalidoException  {
 		if(this.buscaHospede(email).verificaPontos(pontos)){
 			this.buscaHospede(email).setPontos(this.buscaHospede(email).getPontos() - pontos);
 			return this.buscaHospede(email).getCartao().convertePontos(pontos);

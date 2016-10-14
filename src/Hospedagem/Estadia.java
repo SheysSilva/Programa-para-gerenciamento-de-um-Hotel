@@ -4,7 +4,11 @@ import exceptionsmetodos.ExceptionMetodosEstadia;
 import sistemaexception.ObjetoNullException;
 import sistemaexception.QuartoInexistenteException;
 import sistemaexception.ValorInvalidoException;
-
+/**
+ * 
+ * @author Sheilla, Evelinne, Gustavo
+ *
+ */
 public class Estadia {
 	private Quarto quarto;
 	private int dias;
@@ -18,24 +22,44 @@ public class Estadia {
 		this.dias = quantDias;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public Quarto getQuarto() {
 		return this.quarto;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public int getDias() {
 		return this.dias;
 	}
 
+	/**
+	 * 
+	 * @param dias
+	 * @throws ValorInvalidoException
+	 */
 	public void setDias(int dias) throws ValorInvalidoException {
 		this.exception.exceptionDias(dias);
 		this.dias = dias;
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public double getValorDiariaQuarto(){
 		return this.quarto.getValorQuarto();
 	}
 	
-
+	/**
+	 * 
+	 * @return
+	 */
 	public double getValorTotal() {
 		return this.getValorDiariaQuarto() * this.getDias();
 	}

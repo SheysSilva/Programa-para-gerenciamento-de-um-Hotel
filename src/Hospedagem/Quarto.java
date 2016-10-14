@@ -3,7 +3,11 @@ package hospedagem;
 import exceptionsmetodos.ExceptionMetodosQuarto;
 import sistemaexception.ObjetoNullException;
 import sistemaexception.ValorInvalidoException;
-
+/**
+ * 
+ * @author Sheilla, Evelinne, Gustavo
+ *
+ */
 public abstract class Quarto implements Quartos{
 
 	private double valorQuarto;
@@ -19,17 +23,22 @@ public abstract class Quarto implements Quartos{
 		this.numeroDoQuarto = numQuarto;
 		
 	}
+	
+	/**
+	 * 
+	 */
 	public String getNumeroDoQuarto() {
 		return numeroDoQuarto;
 	}
 	
+	/**
+	 * 
+	 */
 	public double getValorQuarto() {
 		return valorQuarto;
 	}
 
 	public abstract String getTipo();
-
-	
 		
 	@Override
 	public int hashCode() {
