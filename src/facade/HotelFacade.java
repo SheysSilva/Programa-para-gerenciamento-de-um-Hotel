@@ -3,8 +3,10 @@ package facade;
 
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.Serializable;
 
 import controllers.Recepcao;
 import controllers.RestauranteController;
@@ -32,7 +34,8 @@ import sistemaexception.ValorInvalidoException;
  * @author Sheilla, Evelinne, Gustavo
  *
  */
-public class HotelFacade {
+@SuppressWarnings("serial")
+public class HotelFacade implements Serializable{
 	
 	private RestauranteController restaurante;
 	private Recepcao recepcao;
@@ -47,7 +50,14 @@ public class HotelFacade {
 		this.factoryQuarto = new FactoryQuarto();
 	}
 	
-	public void iniciaSistema(){
+	public void iniciaSistema() throws IOException{
+		//Diretorio
+		File diretorio = new File("arquivos_sistema");
+		diretorio.mkdir();
+		
+		File diretorio_relat = new File("arquivos_sistema/relatorios");
+		diretorio_relat.mkdir();
+		
 	}
 	
 	private Quarto criaQuarto(String tipoQuarto, String numQuarto) throws QuartoInexistenteException, ValorInvalidoException, ObjetoNullException {
@@ -264,31 +274,26 @@ public class HotelFacade {
 	 * @throws IOException
 	 */
 	public void fechaSistema() throws IOException{
-		//Diretorio
-		File diretorio = new File("historico");
-		diretorio.mkdir();
 		
 		//Criando arquivo txt
-		File hospede = new File("historico/cad_hospedes.txt");
-		hospede.createNewFile();
 		
-		File restaurante = new File("historico/cad_restaurante.txt");
-		restaurante.createNewFile();
+		FileOutputStream hospede = new FileOutputStream("arquivos_sistema/relatorios/cad_hospedes.txt");
+	
+		FileOutputStream restaurante = new FileOutputStream("arquivos_sistema/relatorios/cad_restaurante.txt");
 		
-		File transacao = new File("historico/cad_transacoes.txt");
-		transacao.createNewFile();
-		
-		File principal = new File("historico/hotel_principal.txt");
-		principal.createNewFile();
+		FileOutputStream transacao = new FileOutputStream("arquivos_sistema/relatorios/cad_transacoes.txt");
+	
+		FileOutputStream principal = new FileOutputStream("arquivos_sistema/relatorios/hotel_principal.txt");
 		
 		//File
-		FileWriter escreve_hospede = new FileWriter(hospede);
 		
-		FileWriter escreve_restaurante = new FileWriter(restaurante);
+		PrintWriter escreve_hospede = new PrintWriter(hospede);
 		
-		FileWriter escreve_transacao = new FileWriter(transacao);
+		PrintWriter escreve_restaurante = new PrintWriter(restaurante);
 		
-		FileWriter escreve_principal = new FileWriter(principal);
+		PrintWriter escreve_transacao = new PrintWriter(transacao);
+		
+		PrintWriter escreve_principal = new PrintWriter(principal);
 		
 		//Buffer
 		BufferedWriter buffer_hospede =  new BufferedWriter(escreve_hospede);
