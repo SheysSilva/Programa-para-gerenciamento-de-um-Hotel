@@ -162,7 +162,7 @@ public class Recepcao {
 				throw new HospedeInexistenteException(new ChekinException() + " Hospede de email "+ email +" nao foi cadastrado(a).");
 			}
 		}else{
-			throw new ChekinException(new ChekinException() + " Quarto " + quarto.getNumeroDoQuarto() + " ja esta ocupado.");	
+			throw new ChekinException("Erro ao realizar checkin. Quarto " + quarto.getNumeroDoQuarto() + " ja esta ocupado.");	
 		} 
 	}
 	
@@ -337,7 +337,7 @@ public class Recepcao {
 			case "EMAIL":
 				return this.getInfoHospedeEmail(email);
 			default:
-				throw new GetInfoHospede(new GetInfoHospede() + " Hospede de " + email + " nao foi cadastrado(a).");
+				throw new GetInfoHospede("Erro na consulta de hospede. Hospede de " + email + " nao foi cadastrado(a).");
 		}
 	}
 	
